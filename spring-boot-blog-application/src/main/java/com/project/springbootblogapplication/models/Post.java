@@ -1,7 +1,9 @@
 package com.project.springbootblogapplication.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -20,9 +22,11 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    private int author_id;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 
-
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "author_id", referencedColumnName = "user_id", nullable = false)
+    private User user;
 }
