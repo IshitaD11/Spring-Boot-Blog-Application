@@ -6,6 +6,7 @@ import com.project.springbootblogapplication.services.PostService;
 import com.project.springbootblogapplication.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,38 +40,60 @@ public class PostController {
     }
 
     // create a new post, if user not found return error page
+    // added authentication
     @GetMapping("/posts/new")
+    @PreAuthorize("isAuthenticated()")
     public String createNewPost(Model model){
-        Optional<User> optionalUser = userService.findByUserName("SYSADMIN");
-        if(optionalUser.isPresent()){
-            Post post = new Post();
-            post.setUser(optionalUser.get());
-            model.addAttribute("post",post);
-            return "new_post";
-        }
-        return "404";
+
+        Post post = new Post();
+        model.addAttribute("post",post);
+        return "new_post";
+
     }
 
     // create new post, POST data back to DB
     @PostMapping("/posts/new")
-    public String saveNewPost(@ModelAttribute Post post){
+    @PreAuthorize("isAuthenticated()")
+    public String saveNewPost(@ModelAttribute Post post, Authentication authentication) throws Exception {
+        // Get the currently logged-in user
+        User currentUser = null;
+        if(authentication!=null)
+            currentUser = userService.findByEmail(authentication.getName()).orElse(null);
+
+        if(currentUser == null)
+            throw new Exception("User Account not found");
+
+        // set the user in post
+        post.setUser(currentUser);
+
         postService.save(post);
-        // redirect to newly created post.html
+
+        // redirect to newly created post page
         return "redirect:/posts/" + post.getPost_id();
     }
 
     //edit post: get the post
+    //New: changes done to give access to edit/delete to own user/admin
     @GetMapping("/posts/{id}/edit")
-    @PreAuthorize("isAuthenticated()")
-    public String getPostForEdit(@PathVariable Long id,Model model){
+//    @PreAuthorize("isAuthenticated()")
+    public String getPostForEdit(@PathVariable Long id, Model model, Authentication authentication){
 
         // find post by id
         Optional<Post> optionalPost = postService.getById(id);
-        // if post exists put it in model
-        if(optionalPost.isPresent()){
+
+        // if post exists and user is authenticated
+        if(optionalPost.isPresent() && authentication!=null && authentication.isAuthenticated()){
+            User currentUser = userService.findByEmail(authentication.getName()).orElse(null);
             Post post = optionalPost.get();
-            model.addAttribute("post",post);
-            return "post_edit";
+
+            //  if current user is own user/admin then allow
+            if(currentUser != null && (currentUser.equals(post.getUser()) || currentUser.isAdmin())){
+                model.addAttribute("post",post);
+                return "post_edit";
+            }
+            else{
+                return "access_denied";
+            }
         }
         else{
             return "404";

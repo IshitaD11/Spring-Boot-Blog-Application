@@ -41,4 +41,8 @@ public class User {
                 ", email='" + email + "'" +
                 ", authorities=" + authorities + "}" ;
     }
+
+    public boolean isAdmin() {
+        return authorities.stream().anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority_name()));
+    }
 }
