@@ -5,10 +5,14 @@ import com.project.springbootblogapplication.models.User;
 import com.project.springbootblogapplication.services.PostService;
 import com.project.springbootblogapplication.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Optional;
 
@@ -47,4 +51,66 @@ public class PostController {
         }
         return "404";
     }
+
+    // create new post, POST data back to DB
+    @PostMapping("/posts/new")
+    public String saveNewPost(@ModelAttribute Post post){
+        postService.save(post);
+        // redirect to newly created post.html
+        return "redirect:/posts/" + post.getPost_id();
+    }
+
+    //edit post: get the post
+    @GetMapping("/posts/{id}/edit")
+    @PreAuthorize("isAuthenticated()")
+    public String getPostForEdit(@PathVariable Long id,Model model){
+
+        // find post by id
+        Optional<Post> optionalPost = postService.getById(id);
+        // if post exists put it in model
+        if(optionalPost.isPresent()){
+            Post post = optionalPost.get();
+            model.addAttribute("post",post);
+            return "post_edit";
+        }
+        else{
+            return "404";
+        }
+    }
+
+    //edit post:update post
+    @PostMapping("/posts/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String updatePost(@PathVariable Long id, Post post){
+
+        // find post by id
+        Optional<Post> optionalPost = postService.getById(id);
+        // if post exists put it in model
+        if(optionalPost.isPresent()) {
+            Post existingPost = optionalPost.get();
+            existingPost.setTitle(post.getTitle());
+            existingPost.setContent(post.getContent());
+            postService.save(existingPost);
+        }
+        return "redirect:/posts/" + id;
+    }
+
+
+    // delete post: Only admin has rights to delete post
+    @GetMapping("/posts/{id}/delete")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    public String deletePost(@PathVariable Long id){
+        // find post by id
+        Optional<Post> optionalPost = postService.getById(id);
+        if(optionalPost.isPresent()){
+            Post post = optionalPost.get();
+
+            postService.delete(post);
+            return "redirect:/";
+        }
+        else{
+            return "404";
+        }
+    }
+
 }

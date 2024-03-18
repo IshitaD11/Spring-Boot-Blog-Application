@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Blog :: New Post</title>
+    <title>Blog :: Update Post</title>
 </head>
 <body>
 <div class="container">
@@ -13,13 +13,13 @@
     <h5><a th:href="@{'/'}">Home</a></h5>
     <div class="post-container">
         <form action="#"
-              th:action="@{/posts/new}"
+              th:action="@{'/posts/{id}'(id=${post.post_id})}"
               th:object="${post}"
               method="POST">
             <input type="hidden" th:field="*{user}">
             <input type="hidden" th:field="*{created_at}">
             <input type="hidden" th:field="*{updated_at}">
-            <h2>Write new Post</h2>
+            <h2>Update Post</h2>
             <div>
                 <label for="title">Title</label>
                 <input id="title" type="text" th:field="*{title}" placeholder="Title">
@@ -28,7 +28,7 @@
                 <label for="content">Content</label>
                 <textarea id="content" th:field="*{content}" placeholder="Content"></textarea>
             </div>
-            <button type="submit">Submit New Post</button>
+            <button type="submit">Update Post</button>
         </form>
     </div>
 </div>

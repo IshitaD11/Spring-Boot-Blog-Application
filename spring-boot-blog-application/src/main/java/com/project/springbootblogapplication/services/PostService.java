@@ -30,11 +30,14 @@ public class PostService {
         // new post
         if(post.getPost_id() == null){
             post.setCreated_at(LocalDateTime.now());
-            post.setUpdated_at(LocalDateTime.now());
         }
-        else{
-            post.setUpdated_at(LocalDateTime.now());
-        }
+        post.setUpdated_at(LocalDateTime.now());
+
         return postRepository.save(post);
+    }
+
+    // delete post
+    public void delete(Post post){
+        postRepository.delete(post);
     }
 }
