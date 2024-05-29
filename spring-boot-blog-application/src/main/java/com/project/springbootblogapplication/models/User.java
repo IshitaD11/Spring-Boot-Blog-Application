@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,35 +15,35 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class User extends BaseModel{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long userId;
 
-    private String username;
+    private String fullName;
     private String email ;
     private String password;
-    private LocalDateTime created_at;
+//    private LocalDateTime created_at;
 
 
-    @OneToMany
-    private List<Post> postList;
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority",
-    joinColumns = {@JoinColumn(name = "user_id" , referencedColumnName = "user_id")},
-    inverseJoinColumns = {@JoinColumn(name = "authority_ID", referencedColumnName = "authority_ID")})
+    joinColumns = {@JoinColumn(name = "user_id" , referencedColumnName = "id")},
+    inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
     private Set<Authority> authorities = new HashSet<>();
 
     @Override
     public String toString(){
-        return "User{" + "username='" + username + "'" +
+        return "User{" + "fullName='" + fullName + "'" +
                 ", email='" + email + "'" +
                 ", authorities=" + authorities + "}" ;
     }
 
     public boolean isAdmin() {
-        return authorities.stream().anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority_name()));
+        return authorities.stream().anyMatch(authority -> authority.getAuthorityName().equals(AuthorityType.ROLE_ADMIN));
     }
 }

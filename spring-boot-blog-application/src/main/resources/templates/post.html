@@ -14,14 +14,14 @@
     <h5><a th:href="@{'/'}">Home</a></h5>
     <div class="post">
         <h2 th:text="${post.title}">Title</h2>
-        <h5 th:text="'Written by ' + ${post.user.getUsername()}">User name</h5>
-        <h5 th:text="'Created on ' + ${post.created_at}">Created At</h5>
-        <h5 th:text="'Modified on ' + ${post.updated_at}">Updated At</h5>
-        <p th:text="${post.content}">Content</p>
+        <h5 th:text="'Written by ' + ${post.user.getFullName()}">Full name</h5>
+        <h5 th:text="'Created on ' + ${post.getCreatedDate()}">Created At</h5>
+        <h5 th:text="'Modified on ' + ${post.getModifiedDate()}">Updated At</h5>
+        <p th:utext="${post.content}">Content</p>
     </div>
     <ul sec:authorize="isAuthenticated()">
-        <li><a th:href="@{'/posts/' + ${post.post_id} + '/edit'}">Edit</a> </li>
-        <li><a th:href="@{'/posts/' + ${post.post_id} + '/delete'}">Delete</a> </li>
+        <li><a th:href="@{'/posts/' + ${post.getId()} + '/edit'}">Edit</a> </li>
+        <li><a th:href="@{'/posts/' + ${post.getId()} + '/delete'}">Delete</a> </li>
     </ul>
 </div>
 </body>

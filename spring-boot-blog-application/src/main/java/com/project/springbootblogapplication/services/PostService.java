@@ -28,10 +28,10 @@ public class PostService {
     // save a post
     public Post save(Post post){
         // new post
-        if(post.getPost_id() == null){
-            post.setCreated_at(LocalDateTime.now());
-        }
-        post.setUpdated_at(LocalDateTime.now());
+//        if(post.getPost_id() == null){
+//            post.setCreated_at(LocalDateTime.now());
+//        }
+//        post.setUpdated_at(LocalDateTime.now());
 
         return postRepository.save(post);
     }

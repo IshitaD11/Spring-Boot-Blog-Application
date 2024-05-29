@@ -1,5 +1,6 @@
 package com.project.springbootblogapplication.config;
 
+import com.project.springbootblogapplication.models.AuthorityType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -19,7 +21,9 @@ public class WebSecurityConfig {
 
     private static final String[] WHITELIST = {
             "/",
-            "/register"
+            "/register",
+            "/css/**",
+            "/images/**"
     };
 
     @Bean
@@ -33,6 +37,8 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(authz -> authz
                 .requestMatchers(WHITELIST).permitAll()
                 .requestMatchers(HttpMethod.GET,"/posts/*").permitAll()
+                .requestMatchers(HttpMethod.POST,"/upload-image/*").permitAll()
+                .requestMatchers("/posts/new").hasRole("ADMIN")
                 .anyRequest().authenticated());
 
         // for login handling: authentication and authorization. create default interfaces
@@ -49,7 +55,9 @@ public class WebSecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/logout-success") // modified from /login?logout
                         .permitAll())
-                .httpBasic(withDefaults());
+                .httpBasic(withDefaults())
+                .csrf(withDefaults());;
+
 
         return http.build();
     }

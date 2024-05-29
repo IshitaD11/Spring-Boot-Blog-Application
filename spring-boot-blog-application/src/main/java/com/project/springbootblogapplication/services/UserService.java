@@ -21,11 +21,11 @@ public class UserService {
     // save new account
     public User save(User user){
         // for new user update the creation date
-        if(user.getUser_id()==null){
+        if(user.getId()==null){
             // encode the password
             String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
-            user.setCreated_at(LocalDateTime.now());
+//            user.setCreated_at(LocalDateTime.now());
         }
         return userRepository.saveAndFlush(user);
     }
@@ -36,8 +36,8 @@ public class UserService {
     }
 
     // get user by name
-    public Optional<User> findByUserName(String username){
-        return userRepository.findOneByUsername(username);
+    public Optional<User> findByFullName(String username){
+        return userRepository.findOneByFullName(username);
     }
 
     public Optional<User> findByEmail(String email){

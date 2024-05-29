@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<div th:fragment="navbar">
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <a href="/" class="navbar-brand">Algo Blog</a>
+            </div>
+            <div class="navbar-right">
+                <span th:if="${fullName!=null}" >Hi, <span th:text="${fullName}">Username</span></span>
+                <div class="navbar-search">
+                    <a th:href="@{/search}">
+                        <img th:src="@{/images/searchIcon.png}" alt="Search Icon" >
+                    </a>
+                </div>
+                <ul class="navbar-links">
+                    <li sec:authorize="!isAuthenticated()"><a th:href="@{/register}" class="simple-link">Register</a></li>
+                    <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}" class="simple-link">Login</a></li>
+                    <li sec:authorize="isAuthenticated()">
+                        <div class="profile-wrapper">
+                            <img th:src="@{/images/profileIcon.png}" alt="Profile Icon" class="profile-icon" onclick="toggleProfileMenu()">
+                            <div class="profile-menu" id="profileMenu">
+                                <a th:href="@{/profile}">Profile</a>
+                                <a href="#" onclick="document.getElementById('logoutForm').submit();">Logout</a>
+                                <form id = "logoutForm" action="#" th:action="@{/logout}" method="POST" style="display: none;">
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        function toggleProfileMenu() {
+            var menu = document.getElementById("profileMenu");
+            menu.classList.toggle("show");
+        }
+
+        // Close the menu if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.profile-icon')) {
+                var menus = document.getElementsByClassName("profile-menu");
+                for (var i = 0; i < menus.length; i++) {
+                    var openMenu = menus[i];
+                    if (openMenu.classList.contains('show')) {
+                        openMenu.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
+</div>

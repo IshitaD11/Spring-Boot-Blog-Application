@@ -6,25 +6,28 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "authority")
+@Entity(name = "authorities")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Authority implements Serializable {
+public class Authority extends BaseModel implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long authority_id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long authorityId;
 
-    private String authority_name;
+    @Enumerated(EnumType.ORDINAL)
+    private AuthorityType authorityName;
 
     @ManyToMany(mappedBy = "authorities")
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     @Override
     public String toString(){
-        return "Authority{" + "name='" + authority_name + "'" + "}";
+        return "Authority{" + "name='" + authorityName + "'" + "}";
     }
+
 }

@@ -69,7 +69,7 @@ public class PostController {
         postService.save(post);
 
         // redirect to newly created post page
-        return "redirect:/posts/" + post.getPost_id();
+        return "redirect:/posts/" + post.getId();
     }
 
     //edit post: get the post
