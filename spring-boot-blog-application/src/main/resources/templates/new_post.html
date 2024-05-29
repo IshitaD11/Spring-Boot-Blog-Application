@@ -7,6 +7,9 @@
     <title>Blog :: New Post</title>
     <link rel="stylesheet" th:href="@{/css/new_post_styles.css}">
     <link rel="stylesheet" th:href="@{/css/navbar_styles.css}">
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
@@ -16,6 +19,7 @@
               th:action="@{/posts/new}"
               th:object="${post}"
               method="POST">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <h2>Write new Post</h2>
             <div>
                 <label for="title">Title</label>
@@ -29,5 +33,61 @@
         </form>
     </div>
 </div>
+<script>
+    class MyUploadAdapter {
+        constructor(loader) {
+            this.loader = loader;
+        }
+
+        upload() {
+            return this.loader.file
+                .then(file => new Promise((resolve, reject) => {
+                    this._uploadFile(file, resolve, reject);
+                }));
+        }
+
+        _uploadFile(file, resolve, reject) {
+            const data = new FormData();
+            data.append('upload', file);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: data,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
+                }
+            })
+                .then(response => response.json())
+                .then(response => {
+                    if (response.url) {
+                        resolve({
+                            default: response.url
+                        });
+                    } else {
+                        reject(response.error || 'Upload failed');
+                    }
+                })
+                .catch(reject);
+        }
+
+        abort() {
+            // Implement if necessary
+        }
+    }
+
+    function MyCustomUploadAdapterPlugin(editor) {
+        editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+            return new MyUploadAdapter(loader);
+        };
+    }
+
+    ClassicEditor
+        .create(document.querySelector('#content'), {
+            extraPlugins: [MyCustomUploadAdapterPlugin]
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
 </body>
 </html>

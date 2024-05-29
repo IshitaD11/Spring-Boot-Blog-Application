@@ -11,17 +11,12 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // Configure handling for the "uploads" directory
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:uploads/");
-        // Serve the node_modules directory
-        registry.addResourceHandler("/node_modules/**")
-                .addResourceLocations("file:node_modules/");
+                .addResourceLocations("file:///C:/Ishita Java Workspace/Git repo/Spring-Boot-Blog-Application/spring-boot-blog-application/uploads/");
 
         // Ensure CSS and other static resources are correctly handled
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("classpath:/static/css/");
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("classpath:/static/images/");
-        registry.addResourceHandler("/js/**")
-                .addResourceLocations("classpath:/static/js/");
     }
 }
