@@ -21,7 +21,7 @@
     </ul>
     <div class="post-container">
         <div class="post" th:each="post : ${posts}">
-            <h2><a th:href="@{'/posts/' + ${post.getId()}}"
+            <h2><a th:href="@{'/posts/' + ${post.getSlug()}}"
                    th:text="${post.title}">Title</a>
             </h2>
             <h5 th:text="'Written by ' + ${post.user.getFullName()}">Full name</h5>

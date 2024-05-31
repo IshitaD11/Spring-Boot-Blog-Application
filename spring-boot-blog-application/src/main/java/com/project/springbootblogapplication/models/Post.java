@@ -1,11 +1,9 @@
 package com.project.springbootblogapplication.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +19,11 @@ public class Post extends BaseModel{
     private String title;
     private String url;
 
+    @Column(unique = true)
+    private String slug;
+
+    @Column(columnDefinition = "TEXT")
+    private String problemStatement;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable( name = "post_tag", joinColumns = @JoinColumn(name = "post_id"),

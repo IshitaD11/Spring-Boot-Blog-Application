@@ -8,6 +8,8 @@
     <link rel="stylesheet" th:href="@{/css/new_post_styles.css}">
     <link rel="stylesheet" th:href="@{/css/navbar_styles.css}">
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    <script th:src="@{/js/ckeditor-setup.js}"></script>
+    <script th:src="@{/js/tags-new-post.js}"></script>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
@@ -29,65 +31,22 @@
                 <label for="content">Content</label>
                 <textarea id="content" th:field="*{content}" placeholder="Content"></textarea>
             </div>
+            <div>
+                <label>Tags</label>
+                <div id="predefined-tags">
+                    <span th:each="tag : ${tags}" class="tag" th:text="${tag.tagName}" th:data-tag-id="${tag.id}"></span>
+                </div>
+                <input id="tags" type="hidden" th:field="*{tags}">
+            </div>
             <button type="submit">Submit New Post</button>
         </form>
     </div>
 </div>
 <script>
-    class MyUploadAdapter {
-        constructor(loader) {
-            this.loader = loader;
-        }
-
-        upload() {
-            return this.loader.file
-                .then(file => new Promise((resolve, reject) => {
-                    this._uploadFile(file, resolve, reject);
-                }));
-        }
-
-        _uploadFile(file, resolve, reject) {
-            const data = new FormData();
-            data.append('upload', file);
-
-            fetch('/upload', {
-                method: 'POST',
-                body: data,
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
-                }
-            })
-                .then(response => response.json())
-                .then(response => {
-                    if (response.url) {
-                        resolve({
-                            default: response.url
-                        });
-                    } else {
-                        reject(response.error || 'Upload failed');
-                    }
-                })
-                .catch(reject);
-        }
-
-        abort() {
-            // Implement if necessary
-        }
-    }
-
-    function MyCustomUploadAdapterPlugin(editor) {
-        editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-            return new MyUploadAdapter(loader);
-        };
-    }
-
-    ClassicEditor
-        .create(document.querySelector('#content'), {
-            extraPlugins: [MyCustomUploadAdapterPlugin]
-        })
-        .catch(error => {
-            console.error(error);
-        });
+    document.addEventListener('DOMContentLoaded', function () {
+        initializeCKEditor('content');
+        initializeTagSelection();
+    });
 </script>
 </body>
 </html>

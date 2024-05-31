@@ -1,20 +1,21 @@
 package com.project.springbootblogapplication.controllers;
 
 import com.project.springbootblogapplication.models.Post;
+import com.project.springbootblogapplication.models.Tag;
 import com.project.springbootblogapplication.models.User;
 import com.project.springbootblogapplication.services.PostService;
+import com.project.springbootblogapplication.services.TagService;
 import com.project.springbootblogapplication.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import com.project.springbootblogapplication.utils.SlugUtil;
 
 @Controller
 public class PostController {
@@ -25,11 +26,14 @@ public class PostController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TagService tagService;
+
     // this is for each post
-    @GetMapping("/posts/{id}")
-    public String getPost(@PathVariable Long id, Model model){
+    @GetMapping("/posts/{slug}")
+    public String getPost(@PathVariable String slug, Model model){
         // find post by id
-        Optional<Post> optionalPost = postService.getById(id);
+        Optional<Post> optionalPost = postService.findBySlug(slug);
         // if post exists, then pass it in model
         if(optionalPost.isPresent()){
             Post post = optionalPost.get();
@@ -46,7 +50,9 @@ public class PostController {
     public String createNewPost(Model model){
 
         Post post = new Post();
+        List<Tag> predefinedTags = tagService.findAll();
         model.addAttribute("post",post);
+        model.addAttribute("tags",predefinedTags);
         return "new_post";
 
     }
@@ -54,7 +60,7 @@ public class PostController {
     // create new post, POST data back to DB
     @PostMapping("/posts/new")
     @PreAuthorize("isAuthenticated()")
-    public String saveNewPost(@ModelAttribute Post post, Authentication authentication) throws Exception {
+    public String saveNewPost(@ModelAttribute Post post, Authentication authentication, @RequestParam("tags") List<Long> tagIds) throws Exception {
         // Get the currently logged-in user
         User currentUser = null;
         if(authentication!=null)
@@ -66,20 +72,22 @@ public class PostController {
         // set the user in post
         post.setUser(currentUser);
 
+        List<Tag> tags = tagService.findAllById(tagIds);
+        post.setTags(tags);
+
         postService.save(post);
 
         // redirect to newly created post page
-        return "redirect:/posts/" + post.getId();
+        return "redirect:/posts/" + post.getSlug();
     }
 
     //edit post: get the post
     //New: changes done to give access to edit/delete to own user/admin
-    @GetMapping("/posts/{id}/edit")
-//    @PreAuthorize("isAuthenticated()")
-    public String getPostForEdit(@PathVariable Long id, Model model, Authentication authentication){
+    @GetMapping("/posts/{slug}/edit")
+    public String getPostForEdit(@PathVariable String slug, Model model, Authentication authentication){
 
         // find post by id
-        Optional<Post> optionalPost = postService.getById(id);
+        Optional<Post> optionalPost = postService.findBySlug(slug);
 
         // if post exists and user is authenticated
         if(optionalPost.isPresent() && authentication!=null && authentication.isAuthenticated()){
@@ -101,12 +109,12 @@ public class PostController {
     }
 
     //edit post:update post
-    @PostMapping("/posts/{id}")
+    @PostMapping("/posts/{slug}")
     @PreAuthorize("isAuthenticated()")
-    public String updatePost(@PathVariable Long id, Post post){
+    public String updatePost(@PathVariable String slug, Post post){
 
         // find post by id
-        Optional<Post> optionalPost = postService.getById(id);
+        Optional<Post> optionalPost = postService.findBySlug(slug);
         // if post exists put it in model
         if(optionalPost.isPresent()) {
             Post existingPost = optionalPost.get();
@@ -114,16 +122,16 @@ public class PostController {
             existingPost.setContent(post.getContent());
             postService.save(existingPost);
         }
-        return "redirect:/posts/" + id;
+        return "redirect:/posts/" + slug;
     }
 
 
     // delete post: Only admin has rights to delete post
-    @GetMapping("/posts/{id}/delete")
+    @GetMapping("/posts/{slug}/delete")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    public String deletePost(@PathVariable Long id){
+    public String deletePost(@PathVariable String slug){
         // find post by id
-        Optional<Post> optionalPost = postService.getById(id);
+        Optional<Post> optionalPost = postService.findBySlug(slug);
         if(optionalPost.isPresent()){
             Post post = optionalPost.get();
 
