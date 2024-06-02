@@ -68,7 +68,7 @@ public class SeedDataConfig implements CommandLineRunner {
             admin.setAuthorities(authoritySetUser);
             userService.save(otherUser);
 
-            List<Post> posts = postService.getAll();
+            List<Post> posts = postService.findAll();
 
             // if not data is available, create new dummy post using admin user
             if(posts.isEmpty()) {

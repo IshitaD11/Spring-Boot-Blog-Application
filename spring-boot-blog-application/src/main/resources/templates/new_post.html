@@ -36,7 +36,7 @@
                 <div id="predefined-tags">
                     <span th:each="tag : ${tags}" class="tag" th:text="${tag.tagName}" th:data-tag-id="${tag.id}"></span>
                 </div>
-                <input id="tags" type="hidden" th:field="*{tags}">
+                <input id="tags" type="hidden" th:field="*{tags}" name="tags">
             </div>
             <button type="submit">Submit New Post</button>
         </form>

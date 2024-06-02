@@ -9,29 +9,42 @@
     <title>Blog :: Home</title>
     <link rel="stylesheet" th:href="@{/css/home_styles.css}">
     <link rel="stylesheet" th:href="@{/css/navbar_styles.css}">
+    <link rel="stylesheet" th:href="@{/css/tags_styles.css}">
+    <script th:src="@{/js/tags-filter.js}"></script>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container">
-    <ul>
-        <li sec:authorize="hasAuthority('ROLE_ADMIN')">
-            <a th:href="@{/posts/new}" class="new-post-button">New Post</a>
-        </li>
-    </ul>
-    <div class="post-container">
-        <div class="post" th:each="post : ${posts}">
-            <h2><a th:href="@{'/posts/' + ${post.getSlug()}}"
-                   th:text="${post.title}">Title</a>
-            </h2>
-            <h5 th:text="'Written by ' + ${post.user.getFullName()}">Full name</h5>
-            <h5 th:text="'Published on ' + ${post.getCreatedDate()}">Created Date</h5>
-            <p th:text="${post.getContentFirstLine()}">Content</p>
-            <br />
+    <div class="new-post-button-container">
+        <a th:href="@{/posts/new}" class="new-post-button" sec:authorize="hasAuthority('ROLE_ADMIN')">New Post</a>
+    </div>
+    <div class="main-content">
+        <div class="left-section">
+            <div th:replace="~{fragments/tags_filter :: tagsFilter(tags=${tags})}"></div>
+        </div>
+        <div class="separator"></div>
+        <div class="right-section">
+        <div class="post-container">
+            <div class="post" th:each="post : ${posts}">
+                <h2><a th:href="@{'/posts/' + ${post.getSlug()}}"
+                       th:text="${post.title}">Title</a>
+                </h2>
+                <h5 th:text="'Written by ' + ${post.user.getFullName()}">Full name</h5>
+                <h5 th:text="'Published on ' + ${post.getCreatedDate()}">Created Date</h5>
+                <p th:text="${post.getContentFirstLine()}">Content</p>
+                <br />
+            </div>
+        </div>
         </div>
     </div>
     <hr />
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        initializeTagSelection();
+    });
+</script>
 
 </body>
 </html>

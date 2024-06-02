@@ -1,6 +1,7 @@
 package com.project.springbootblogapplication.services;
 
 import com.project.springbootblogapplication.models.Post;
+import com.project.springbootblogapplication.models.Tag;
 import com.project.springbootblogapplication.repositories.PostRepository;
 import com.project.springbootblogapplication.utils.SlugUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class PostService {
@@ -22,7 +24,7 @@ public class PostService {
     }
 
     // get all posts
-    public List<Post> getAll(){
+    public List<Post> findAll(){
         return postRepository.findAll();
     }
 
@@ -61,5 +63,9 @@ public class PostService {
         for(Post post:posts){
             save(post);
         }
+    }
+
+    public List<Post> findDistinctByTagsIn(List<Tag> tags) {
+        return postRepository.findDistinctByTagsIn(tags);
     }
 }

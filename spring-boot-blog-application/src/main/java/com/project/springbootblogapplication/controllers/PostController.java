@@ -38,6 +38,8 @@ public class PostController {
         if(optionalPost.isPresent()){
             Post post = optionalPost.get();
             model.addAttribute("post",post);
+            List<Tag> predefinedTags = tagService.findAll();
+            model.addAttribute("tags",predefinedTags);
             return "post"; //html template for individual post
         }
         return "404"; //return error page
@@ -61,6 +63,9 @@ public class PostController {
     @PostMapping("/posts/new")
     @PreAuthorize("isAuthenticated()")
     public String saveNewPost(@ModelAttribute Post post, Authentication authentication, @RequestParam("tags") List<Long> tagIds) throws Exception {
+
+        System.out.println("Incoming tag IDs: " + tagIds); // Debug: Log incoming tag IDs
+
         // Get the currently logged-in user
         User currentUser = null;
         if(authentication!=null)
@@ -96,7 +101,9 @@ public class PostController {
 
             //  if current user is own user/admin then allow
             if(currentUser != null && (currentUser.equals(post.getUser()) || currentUser.isAdmin())){
+                List<Tag> predefinedTags = tagService.findAll();
                 model.addAttribute("post",post);
+                model.addAttribute("tags", predefinedTags);
                 return "post_edit";
             }
             else{
@@ -111,15 +118,23 @@ public class PostController {
     //edit post:update post
     @PostMapping("/posts/{slug}")
     @PreAuthorize("isAuthenticated()")
-    public String updatePost(@PathVariable String slug, Post post){
+    public String updatePost(@PathVariable String slug, Post post, @RequestParam("tags") List<Long> tagIds){
+
+        System.out.println("Incoming tag IDs: " + tagIds); // Debug: Log incoming tag IDs
 
         // find post by id
         Optional<Post> optionalPost = postService.findBySlug(slug);
+
         // if post exists put it in model
         if(optionalPost.isPresent()) {
             Post existingPost = optionalPost.get();
             existingPost.setTitle(post.getTitle());
             existingPost.setContent(post.getContent());
+            List<Tag> tags = tagService.findAllById(tagIds);
+
+            System.out.println("Tags found: " + tags);
+
+            existingPost.setTags(tags);
             postService.save(existingPost);
         }
         return "redirect:/posts/" + slug;

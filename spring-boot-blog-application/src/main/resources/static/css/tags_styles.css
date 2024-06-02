@@ -1,0 +1,24 @@
+.tags-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.tags-container h3 {
+    margin-bottom: 10px;
+}
+
+.tag {
+    display: inline-block;
+    background-color: #e0e0e0;
+    border-radius: 25px;
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.tag.selected {
+    background-color: #4CAF50;
+    color: white;
+}
