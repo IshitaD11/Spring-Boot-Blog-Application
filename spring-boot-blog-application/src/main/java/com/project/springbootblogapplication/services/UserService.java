@@ -20,12 +20,19 @@ public class UserService {
 
     // save new account
     public User save(User user){
-        // for new user update the creation date
+
         if(user.getId()==null){
             // encode the password
             String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
-//            user.setCreated_at(LocalDateTime.now());
+        }
+        else {
+            User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("User not found"));
+            // check if the password has changed
+            if (!existingUser.getPassword().equals(user.getPassword())) {
+                String encodedPassword = passwordEncoder.encode(user.getPassword());
+                user.setPassword(encodedPassword);
+            }
         }
         return userRepository.saveAndFlush(user);
     }

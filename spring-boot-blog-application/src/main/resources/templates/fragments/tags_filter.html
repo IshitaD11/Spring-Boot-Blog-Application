@@ -1,9 +1,13 @@
+<!--fragments : tags_filter.html-->
 <!DOCTYPE html>
 <div th:fragment="tagsFilter (tags)">
 <div class="tags-container">
     <h3>Search by Tags</h3>
-    <div id="tags-filter">
-        <span th:each="tag : ${tags}" class="tag" th:text="${tag.tagName}" th:data-tag-id="${tag.id}"></span>
-    </div>
+    <form id="tagsFilterForm" method="get" th:action="@{/}">
+        <div id="tags-filter">
+            <span th:each="tag : ${tags}" class="tag" th:text="${tag.tagName}" th:data-tag-id="${tag.id}"></span>
+        </div>
+        <input type="hidden" name="tagIds" id="tagIdsInput" />
+    </form>
 </div>
 </div>

@@ -13,6 +13,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+
 
 @Configuration
 @EnableWebSecurity
@@ -23,8 +25,11 @@ public class WebSecurityConfig {
             "/",
             "/register",
             "/css/**",
-            "/images/**"
+            "/images/**",
+            "/js/**",
+            "/search"
     };
+
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -37,8 +42,10 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(authz -> authz
                 .requestMatchers(WHITELIST).permitAll()
                 .requestMatchers(HttpMethod.GET,"/posts/*").permitAll()
+//                .requestMatchers(HttpMethod.GET,"/").permitAll()
                 .requestMatchers(HttpMethod.POST,"/upload-image/*").permitAll()
                 .requestMatchers("/posts/new").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET,"/search/*").permitAll()
                 .anyRequest().authenticated());
 
         // for login handling: authentication and authorization. create default interfaces

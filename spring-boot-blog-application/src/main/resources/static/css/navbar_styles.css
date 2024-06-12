@@ -4,6 +4,7 @@
     align-items: center;
     background-color: #f8f9fa;
     padding: 1rem;
+    box-shadow: 1px 4px 90px -25px rgba(0,0,0,0.75);
 }
 
 .navbar-container {

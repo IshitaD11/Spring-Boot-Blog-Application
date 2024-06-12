@@ -118,9 +118,14 @@ public class PostController {
     //edit post:update post
     @PostMapping("/posts/{slug}")
     @PreAuthorize("isAuthenticated()")
-    public String updatePost(@PathVariable String slug, Post post, @RequestParam("tags") List<Long> tagIds){
+    public String updatePost(@PathVariable String slug, Post post,
+                             @RequestParam("tags") List<Long> tagIds
+//            ,
+//                             @RequestParam("processedContent") String processedContent
+    ){
 
         System.out.println("Incoming tag IDs: " + tagIds); // Debug: Log incoming tag IDs
+//        System.out.println("Processed content: " + processedContent); // Debug: Log processed content
 
         // find post by id
         Optional<Post> optionalPost = postService.findBySlug(slug);
@@ -130,6 +135,9 @@ public class PostController {
             Post existingPost = optionalPost.get();
             existingPost.setTitle(post.getTitle());
             existingPost.setContent(post.getContent());
+            existingPost.setCodeBlock(post.getCodeBlock());
+            existingPost.setProblemStatement(post.getProblemStatement());
+            existingPost.setUrl(post.getUrl());
             List<Tag> tags = tagService.findAllById(tagIds);
 
             System.out.println("Tags found: " + tags);

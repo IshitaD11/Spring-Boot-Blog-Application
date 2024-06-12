@@ -1,4 +1,5 @@
 // ckeditor-setup.js
+
 class MyUploadAdapter {
     constructor(loader) {
         this.loader = loader;
@@ -55,3 +56,60 @@ function initializeCKEditor(fieldId) {
             console.error(error);
         });
 }
+
+function htmlEncode(str) {
+    return str.replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;'); // Encode tabs to spaces for indentation
+}
+
+function extractCodeBlockDetails(codeBlock) {
+    const div = document.createElement('div');
+    div.innerHTML = codeBlock;
+    const preTag = div.querySelector('pre code');
+    if (preTag) {
+        const languageClass = preTag.className.match(/language-([^\s]+)/);
+        const language = languageClass ? languageClass[1] : '';
+        const code = preTag.innerHTML
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&')
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, "'");
+        return { language, code };
+    }
+    return { language: '', code: '' };
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const newPostForm = document.getElementById('new-post-form');
+    const editPostForm = document.getElementById('edit-post-form');
+    const form = newPostForm || editPostForm;
+
+    if (form) {
+        initializeCKEditor('content');
+        initializeCKEditor('problemStatement');
+
+        if (editPostForm) {
+            const codeBlockField = document.querySelector('#codeBlock');
+            const codeBlockLanguageField = document.querySelector('#codeBlockLanguage');
+            const codeBlockContent = codeBlockField.value;
+
+            const { language, code } = extractCodeBlockDetails(codeBlockContent);
+            codeBlockField.value = code;
+            codeBlockLanguageField.value = language;
+        }
+
+        form.addEventListener('submit', function (event) {
+            const codeBlock = document.querySelector('#codeBlock');
+            const codeBlockLanguage = document.querySelector('#codeBlockLanguage').value;
+            if (codeBlock) {
+                const code = codeBlock.value;
+                codeBlock.value = `<pre><code class="language-${codeBlockLanguage}">${htmlEncode(code)}</code></pre>`;
+            }
+        });
+    }
+});

@@ -1,3 +1,4 @@
+<!--home.html-->
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
@@ -17,22 +18,23 @@
 
 <div class="container">
     <div class="new-post-button-container">
-        <a th:href="@{/posts/new}" class="new-post-button" sec:authorize="hasAuthority('ROLE_ADMIN')">New Post</a>
+        <a th:href="@{/posts/new}" class="new-post-button" > Write a New Post</a>
     </div>
     <div class="main-content">
         <div class="left-section">
-            <div th:replace="~{fragments/tags_filter :: tagsFilter(tags=${tags})}"></div>
+            <div id="tags-filter" th:replace="~{fragments/tags_filter :: tagsFilter(tags=${tags})}"></div>
         </div>
         <div class="separator"></div>
         <div class="right-section">
         <div class="post-container">
+            <h1>Latest Posts</h1>
             <div class="post" th:each="post : ${posts}">
                 <h2><a th:href="@{'/posts/' + ${post.getSlug()}}"
                        th:text="${post.title}">Title</a>
                 </h2>
                 <h5 th:text="'Written by ' + ${post.user.getFullName()}">Full name</h5>
                 <h5 th:text="'Published on ' + ${post.getCreatedDate()}">Created Date</h5>
-                <p th:text="${post.getContentFirstLine()}">Content</p>
+                <p th:utext="${post.getContentFirstLine()}">Content</p>
                 <br />
             </div>
         </div>
@@ -40,11 +42,6 @@
     </div>
     <hr />
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        initializeTagSelection();
-    });
-</script>
 
 </body>
 </html>

@@ -15,19 +15,19 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /*align-items: flex-start;*/
-    padding: 20px;
+    padding: 5px;
 }
 
 .main-content {
     display: flex;
     width: 100%;
+    padding: 10px;
 }
 
 .left-section {
     flex: 0 1 20%;
     max-width: 20%;
-    margin-right: 20px;
+    padding: 25px;
 }
 
 .right-section {
@@ -44,17 +44,76 @@ body {
 
 .post {
     background-color: #fff;
-    padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    padding: 20px 40px;
+}
+
+.post h2 {
+    font-size: 40px;
+    /*width: 50%;*/
     margin-bottom: 20px;
 }
 
+.post-details {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.details-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.details-text .author {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.details-text .date {
+    color: #999;
+}
+
+
+/* Button styles */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
 .edit-delete-buttons {
-    list-style-type: none;
+    display: flex;
+    justify-content: center; /* Centers the buttons */
+    gap: 10px; /* Adds space between buttons */
     padding: 0;
-    margin: 0;
-    text-align: left;
+    margin: 40px 30px; /* Adjusted margin to add space above and below the buttons */
+    list-style-type: none;
+    font-size: 25px;
 }
 
 .edit-delete-buttons li {
@@ -85,9 +144,6 @@ body {
     margin-top: 10px;
 }
 
-.tags label {
-    font-weight: bold;
-}
 
 .tags ul {
     list-style-type: none;
@@ -100,4 +156,20 @@ body {
     border-radius: 25px;
     padding: 5px 10px;
     margin: 5px;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section label {
+    font-weight: bold;
+    font-size: 30px;
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 25px;
+}
+
+.section p, .section div {
+    margin-bottom: 10px;
 }

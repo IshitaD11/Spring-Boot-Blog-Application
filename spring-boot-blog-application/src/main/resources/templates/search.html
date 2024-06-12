@@ -1,0 +1,41 @@
+<!--search.html-->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog :: Search</title>
+    <link rel="stylesheet" th:href="@{/css/search_styles.css}">
+    <link rel="stylesheet" th:href="@{/css/tags_styles.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar_styles.css}">
+    <script th:src="@{/js/tags-filter.js}"></script>
+    <script th:src="@{/js/search.js}"></script>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
+    <div class="search-section">
+        <div id="tags-filter" th:replace="~{fragments/tags_filter :: tagsFilter(tags=${tags})}"></div>
+    </div>
+    <div class="search-section">
+        <h3>Search by Post</h3>
+        <form id="searchForm" th:action="@{/search}" th:object="${searchRequest}" method="get">
+            <input type="text" id="postTitleInput" th:field="*{searchTerm}" placeholder="Search for posts...">
+            <button type="submit">Search</button>
+        </form>
+        <div id="suggestions"></div>
+        <div id="searchResults" th:if="${searchResponse != null}">
+            <h3>Search Results</h3>
+            <div th:each="post : ${searchResponse.postDTOS}" class="post">
+                <a th:href="@{/posts/{slug}(slug=${post.slug})}" th:text="${post.title}"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,5 +1,7 @@
 package com.project.springbootblogapplication.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +12,7 @@ import java.util.List;
 @Entity(name = "posts")
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Post extends BaseModel{
 
 //    @Id
@@ -33,21 +36,23 @@ public class Post extends BaseModel{
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    @Column(columnDefinition = "TEXT")
+    private String codeBlock;
+
 
 //    @NotNull
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "post" , cascade = CascadeType.ALL    )
+    @OneToMany(mappedBy = "post" , cascade = CascadeType.ALL )
     private List<Comment> comments = new ArrayList<>();
 
 
     public String getContentFirstLine(){
-        if(content!=null && content.isEmpty()){
-            int index = content.indexOf('\n');
-            if(index != -1)
-                return content.substring(0,index);
+        if(content!=null && !content.isEmpty()){
+            int index = Math.min(content.length(),100);
+            return content.substring(0,index);
         }
         return content;
     }

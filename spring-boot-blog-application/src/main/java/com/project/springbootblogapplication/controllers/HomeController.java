@@ -38,11 +38,11 @@ public class HomeController {
         List<Post> posts ;
 
         if (tagIds!=null && !tagIds.isEmpty()) {
-            Set<Tag> tags = tagIds.stream().map(tagService::getTagById)
+            Set<Tag> selectedTags = tagIds.stream().map(tagService::getTagById)
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .collect(Collectors.toSet());
-            posts = postService.findDistinctByTagsIn(tags.stream().toList());
+            posts = postService.findByTags(selectedTags);
         } else {
             posts = postService.findAll();
         }

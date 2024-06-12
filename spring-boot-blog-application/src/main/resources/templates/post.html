@@ -1,3 +1,4 @@
+<!--post.html-->
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
@@ -10,6 +11,8 @@
     <link rel="stylesheet" th:href="@{/css/view_post_styles.css}">
     <link rel="stylesheet" th:href="@{/css/navbar_styles.css}">
     <link rel="stylesheet" th:href="@{/css/tags_styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
     <script th:src="@{/js/tags-filter.js}"></script>
 </head>
 <body>
@@ -23,17 +26,33 @@
         <div class="separator"></div>
         <div class="right-section">
             <div class="post">
-                <h2><a th:href="@{'/posts/' + ${post.getSlug()}}" th:text="${post.title}">Title</a></h2>
-                <h5 th:text="'Written by ' + ${post.user.getFullName()}">Full name</h5>
-                <h5 th:text="'Created on ' + ${post.getCreatedDate()}">Created At</h5>
-                <h5 th:text="'Modified on ' + ${post.getModifiedDate()}">Updated At</h5>
-                <div class="tags">
-                    <label>Tags:</label>
+                <h2 th:text="${post.title}">Title</h2>
+                <div class="post-details">
+                    <img src="/images/profileIcon.png" alt="Profile Picture" class="profile-icon">
+                    <div class="details-text">
+                        <span class="author" th:text="${post.user.getFullName()}">Author Name</span>
+                        <span class="date" th:text="${post.getModifiedDate()}">Date</span>
+                    </div>
+                </div>
+                <h3 th:if="${post.url != null}"><a th:href="${post.getUrl()}" class="button">Solve this problem</a></h3>
+                <div class="tags" th:if="${post.tags != null}">
+<!--                    <label>Tags:</label>-->
                     <ul>
                         <li th:each="tag : ${post.tags}" th:text="${tag.tagName}"></li>
                     </ul>
                 </div>
-                <p th:utext="${post.content}">Content</p>
+                <div class="section" th:if="${post.problemStatement != null}">
+                    <label>Problem Statement</label>
+                    <p th:utext="${post.problemStatement}">Problem Statement</p>
+                </div>
+                <div class="section" th:if="${post.content != null}">
+                    <label>Solution Approach</label>
+                    <p th:utext="${post.content}">Content</p>
+                </div>
+                <div class="section" th:if="${post.codeBlock != null}">
+                    <label>Code</label>
+                    <div th:utext="${post.codeBlock}"></div>
+                </div>
             </div>
             <ul class="edit-delete-buttons" sec:authorize="isAuthenticated()">
                 <li><a th:href="@{'/posts/' + ${post.getSlug()} + '/edit'}" class="edit-button">Edit</a></li>
@@ -43,9 +62,10 @@
     </div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        initializeTagSelection();
+    document.addEventListener('DOMContentLoaded', function() {
+        Prism.highlightAll();
     });
 </script>
 </body>
 </html>
+

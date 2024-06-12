@@ -68,4 +68,12 @@ public class PostService {
     public List<Post> findDistinctByTagsIn(List<Tag> tags) {
         return postRepository.findDistinctByTagsIn(tags);
     }
+
+    public List<Post> findByTags(Set<Tag> selectedTags) {
+        return postRepository.findByTagsContainingAll(selectedTags, selectedTags.size());
+    }
+
+    public List<Post> searchPostsByTitle(String query) {
+        return postRepository.findByTitleContainingIgnoreCase(query);
+    }
 }

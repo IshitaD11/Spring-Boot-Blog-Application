@@ -1,5 +1,7 @@
 package com.project.springbootblogapplication.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Authority extends BaseModel implements Serializable {
 
 //    @Id
@@ -23,6 +26,7 @@ public class Authority extends BaseModel implements Serializable {
     private AuthorityType authorityName;
 
     @ManyToMany(mappedBy = "authorities")
+    @JsonIgnore
     private List<User> users = new ArrayList<>();
 
     @Override

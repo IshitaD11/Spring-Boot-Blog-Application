@@ -1,5 +1,6 @@
 package com.project.springbootblogapplication.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 @Entity(name = "comments")
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Comment extends BaseModel{
 
 //    @Id

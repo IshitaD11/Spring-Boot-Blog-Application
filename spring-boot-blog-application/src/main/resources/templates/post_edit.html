@@ -1,3 +1,4 @@
+<!--post_edit.html-->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -17,21 +18,29 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container">
     <div class="post-container">
-        <form action="#"
+        <form id="edit-post-form" action="#"
               th:action="@{/posts/{slug}(slug=${post.slug})}"
               th:object="${post}"
               method="POST">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <h2>Edit Post</h2>
-            <div>
+            <div class="form-section">
                 <label for="title">Title</label>
-                <input id="title" type="text" th:field="*{title}" placeholder="Title">
+                <input id="title" type="text" th:field="*{title}" placeholder="Title" required>
             </div>
-            <div>
+            <div class="form-section">
+                <label for="url">URL</label>
+                <input id="url" type="text" th:field="*{url}" placeholder="url">
+            </div>
+            <div class="form-section">
+                <label for="problemStatement">Problem Statement</label>
+                <textarea id="problemStatement" th:field="*{problemStatement}" placeholder="problemStatement"></textarea>
+            </div>
+            <div class="form-section">
                 <label for="content">Content</label>
-                <textarea id="content" th:field="*{content}" placeholder="Content"></textarea>
+                <textarea id="content" th:field="*{content}" placeholder="Content" required></textarea>
             </div>
-            <div>
+            <div class="form-section">
                 <label>Tags</label>
                 <div id="predefined-tags">
                     <span th:each="tag : ${tags}"
@@ -42,14 +51,22 @@
                 </div>
                 <input id="tags" type="hidden" th:field="*{tags}" name="tags">
             </div>
+            <div class="form-section">
+                <label for="codeBlockLanguage">Code Language</label>
+                <select id="codeBlockLanguage">
+                    <option value="java">Java</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="python">Python</option>
+                </select>
+            </div>
+            <div class="form-section">
+                <label for="codeBlock">Code</label>
+                <textarea id="codeBlock" th:field="*{codeBlock}" placeholder="Enter your code here" rows="10" cols="50"></textarea>
+            </div>
             <button type="submit">Save Changes</button>
         </form>
     </div>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        initializeCKEditor('content');
-    });
-</script>
+
 </body>
 </html>

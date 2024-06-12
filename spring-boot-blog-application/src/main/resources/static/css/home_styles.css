@@ -2,11 +2,18 @@
     box-sizing: border-box;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    background-color: #f9f9f9;
+}
+
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
+    padding: 20px;
     width: 100%;
     max-width: 100%;
     overflow-x: hidden; /* Prevent horizontal scrolling */
@@ -14,10 +21,11 @@
 
 .new-post-button-container {
     display: flex;
-    justify-content: center; /* Aligns the button to the left */
+    justify-content: left; /* Aligns the button to the left */
     width: 100%;
-    padding-left: 390px;
-    margin-bottom: 1rem; /* Add space between the button and the main content */
+    padding-left: 35px;
+    margin-top: 10px;
+    /*margin-bottom: 1rem; !* Add space between the button and the main content *!*/
 }
 
 .new-post-button {
@@ -48,7 +56,7 @@
 .left-section {
     flex: 0 1 20%; /* Smaller width for the left section */
     max-width: 20%; /* Maximum width for the left section */
-    padding-right: 1rem;
+    padding: 20px;
 }
 
 .right-section {
@@ -64,8 +72,33 @@
 }
 
 .post-container {
-    width: 100%;
+    /*margin: 25px;*/
+    width: 70%;
+    margin: 35px auto;
+}
+
+.post-container h1{
     text-align: center;
-    padding-left: 2rem; /* Add padding for left spacing */
-    padding-right: 2rem; /* Add padding for right spacing */
+    width: 35%;
+    margin: auto auto 2px;
+    letter-spacing: -2px;
+}
+
+.post{
+    margin: 25px;
+    background: cornsilk;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: left;
+}
+
+.post h2{
+    font-size: 40px;
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+.post h2 a {
+    text-decoration: none;
 }

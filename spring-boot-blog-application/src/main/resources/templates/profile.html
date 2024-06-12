@@ -1,3 +1,4 @@
+<!--profile.html-->
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
@@ -6,14 +7,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Blog :: Register</title>
+    <title>Blog :: Profile</title>
     <link rel="stylesheet" th:href="@{/css/navbar_styles.css}">
     <link rel="stylesheet" th:href="@{/css/auth_styles.css}">
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container">
-    <form action="#" th:action="@{/register}" th:object="${user}" method="POST" class="auth-form">
+    <form action="#" th:action="@{/profile}" th:object="${user}" method="POST" class="auth-form">
         <div class="form-group">
             <label for="fullname">Full Name</label>
             <input id="fullname" type="text" th:field="*{fullName}" placeholder="Full Name" required>
@@ -32,9 +33,9 @@
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input id="password" type="password" th:field="*{password}" placeholder="Password" required>
+            <input id="password" type="password" th:field="*{password}" placeholder="Password">
         </div>
-        <button type="submit" class="auth-button">Register</button>
+        <button type="submit" class="auth-button">Save Changes</button>
     </form>
 </div>
 

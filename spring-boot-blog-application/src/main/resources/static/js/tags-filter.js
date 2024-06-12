@@ -1,5 +1,3 @@
-// tags-filter.js
-
 let selectedTags = [];
 
 function initializeTagSelection() {
@@ -21,15 +19,36 @@ function initializeTagSelection() {
             filterPostsByTags();
         });
     });
+
+    // Highlight already selected tags on page load (if any)
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedTagIds = urlParams.get('tagIds');
+    if (selectedTagIds) {
+        selectedTags = selectedTagIds.split(',').map(tagId => {
+            const tagElement = document.querySelector(`#tags-filter .tag[data-tag-id="${tagId}"]`);
+            if (tagElement) {
+                tagElement.classList.add('selected');
+            }
+            return { id: tagId, name: tagElement ? tagElement.innerText.trim() : '' };
+        });
+    }
 }
 
 function filterPostsByTags() {
-    const urlParams = new URLSearchParams(window.location.search);
+    const form = document.getElementById('tagsFilterForm');
+    const tagIdsInput = document.getElementById('tagIdsInput');
     const tagIds = selectedTags.map(tag => tag.id);
-    if (tagIds.length > 0) {
-        urlParams.set('tagIds', tagIds.join(','));
-    } else {
-        urlParams.delete('tagIds');
-    }
-    window.location.search = urlParams.toString();
+
+    // Update the hidden input with the selected tag IDs
+    tagIdsInput.value = tagIds.join(',');
+
+    // Update the form's action to point to the home page with query parameters
+    form.action = `/?tagIds=${tagIds.join(',')}`;
+
+    // Submit the form
+    form.submit();
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    initializeTagSelection();
+});
