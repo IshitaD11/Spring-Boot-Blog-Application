@@ -31,10 +31,8 @@ public class SearchController {
         List<Tag> tags = tagService.findAll();
         model.addAttribute("tags", tags);
 
-        System.out.println("searchRequestDTO: " + searchRequest.getSearchTerm());
-        List<PostDTO> searchResults = getPostDTOByTitle(searchTerm);
 
-        System.out.println("searchResults count" + searchResults.size());
+        List<PostDTO> searchResults = getPostDTOByTitle(searchTerm);
 
         if(searchTerm!=null && searchResults.isEmpty()){
             model.addAttribute("NoPostFoundMsg", "No Posts found! Search using some other keyword.");
@@ -45,8 +43,6 @@ public class SearchController {
         searchResponseDTO.setStatus(ResponseStatus.SUCCESS);
         searchResponseDTO.setMessage("Search successful");
         searchResponseDTO.setPostDTOS(searchResults);
-
-        System.out.println("searchResults count" + searchResponseDTO.getPostDTOS().size());
 
         // Add the searchResponseDTO to the model
         model.addAttribute("searchResponse", searchResponseDTO);

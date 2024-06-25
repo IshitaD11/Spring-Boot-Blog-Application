@@ -166,8 +166,6 @@ public class PostController {
             existingPost.setUrl(post.getUrl());
             List<Tag> tags = tagService.findAllById(tagIds);
 
-            System.out.println("Tags found: " + tags);
-
             existingPost.setTags(tags);
             postService.save(existingPost);
         }

@@ -32,7 +32,6 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
             errorMessage = "Your Email is not registered. ";
         }
 
-        System.out.println("error message inside CustomAuthenticationFailureHandler " + errorMessage);
         request.getSession().setAttribute("error_message", errorMessage);
         getRedirectStrategy().sendRedirect(request, response, "/login?error");
     }

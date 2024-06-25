@@ -64,7 +64,7 @@ public class PasswordResetController {
                                 @RequestParam("password") String password,
                                 Model model){
         Optional<User> optionalUser = userService.findByEmail(email);
-        System.out.println("Email in Post Controller " + email);
+
         if(optionalUser.isPresent()){
             User user = optionalUser.get();
             user.setPassword(password);

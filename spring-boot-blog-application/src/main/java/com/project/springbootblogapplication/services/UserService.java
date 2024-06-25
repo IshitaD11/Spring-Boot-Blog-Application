@@ -121,7 +121,6 @@ public class UserService {
         if (token != null) {
             String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
             String endpointUrl = baseUrl + "/reset-password";
-            System.out.println("Password reset URL" + endpointUrl + "/" + token.getToken());
             return endpointUrl + "/" + token.getToken();
         }
 
