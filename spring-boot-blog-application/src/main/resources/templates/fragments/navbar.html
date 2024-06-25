@@ -8,10 +8,17 @@
             </div>
             <div class="navbar-right">
                 <span th:if="${fullName!=null}" >Hi, <span th:text="${fullName}">Username</span></span>
-                <div class="navbar-search">
-                    <a th:href="@{/search}">
-                        <img th:src="@{/images/searchIcon.png}" alt="Search Icon" >
-                    </a>
+                <div class="navbar-icons">
+                    <div class="navbar-new-post" th:if="${showNewPostIcon}">
+                        <a th:href="@{/posts/new}">
+                            <img th:src="@{/images/newPostIcon.png}" alt="New Post Icon">
+                        </a>
+                    </div>
+                    <div class="navbar-search">
+                        <a th:href="@{/search}">
+                            <img th:src="@{/images/searchIcon.png}" alt="Search Icon" >
+                        </a>
+                    </div>
                 </div>
                 <ul class="navbar-links">
                     <li sec:authorize="!isAuthenticated()"><a th:href="@{/register}" class="simple-link">Register</a></li>
@@ -21,6 +28,7 @@
                             <img th:src="@{/images/profileIcon.png}" alt="Profile Icon" class="profile-icon" onclick="toggleProfileMenu()">
                             <div class="profile-menu" id="profileMenu">
                                 <a th:href="@{/profile}">Profile</a>
+                                <a th:href="@{/contact-us}">Contact Us</a>
                                 <a href="#" onclick="document.getElementById('logoutForm').submit();">Logout</a>
                                 <form id = "logoutForm" action="#" th:action="@{/logout}" method="POST" style="display: none;">
                                 </form>

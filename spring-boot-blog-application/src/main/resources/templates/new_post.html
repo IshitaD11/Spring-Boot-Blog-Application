@@ -1,3 +1,4 @@
+<!--new_post.html-->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -28,8 +29,8 @@
                 <input id="title" type="text" th:field="*{title}" placeholder="Title" required>
             </div>
             <div class="form-section">
-                <label for="url">URL</label>
-                <input id="url" type="text" th:field="*{url}" placeholder="url">
+                <label for="url">Problem URL</label>
+                <input id="url" type="url" th:field="*{url}" placeholder="url">
             </div>
             <div class="form-section">
                 <label for="problemStatement">Problem Statement</label>
@@ -37,7 +38,7 @@
             </div>
             <div class="form-section">
                 <label for="content">Content</label>
-                <textarea id="content" th:field="*{content}" placeholder="Content" required></textarea>
+                <textarea id="content" th:field="*{content}" placeholder="Content"></textarea>
                 <input type="hidden" id="processed-content" name="processedContent" th:value="${post.content}">
             </div>
             <div class="form-section">
@@ -57,7 +58,7 @@
             </div>
             <div class="form-section">
                 <label for="codeBlock">Code</label>
-                <textarea id="codeBlock" th:field="*{codeBlock}" placeholder="Enter your code here" rows="10" cols="50"></textarea>
+                <textarea id="codeBlock" th:field="*{codeBlock}" placeholder="Enter your code here" rows="10" cols="50" required></textarea>
             </div>
             <button type="submit">Submit New Post</button>
         </form>

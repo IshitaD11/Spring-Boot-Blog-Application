@@ -7,7 +7,6 @@ import com.project.springbootblogapplication.utils.SlugUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -65,9 +64,6 @@ public class PostService {
         }
     }
 
-    public List<Post> findDistinctByTagsIn(List<Tag> tags) {
-        return postRepository.findDistinctByTagsIn(tags);
-    }
 
     public List<Post> findByTags(Set<Tag> selectedTags) {
         return postRepository.findByTagsContainingAll(selectedTags, selectedTags.size());
@@ -75,5 +71,9 @@ public class PostService {
 
     public List<Post> searchPostsByTitle(String query) {
         return postRepository.findByTitleContainingIgnoreCase(query);
+    }
+
+    public List<Post> getAllPostsSortedByModifiedDate(){
+        return postRepository.findAllOrderByModifiedDateDesc();
     }
 }

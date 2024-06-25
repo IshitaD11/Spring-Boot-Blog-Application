@@ -1,3 +1,4 @@
+// tags-new-post.js
 document.addEventListener('DOMContentLoaded', function() {
     initializeTagSelection();
 });
@@ -36,8 +37,6 @@ function initializeTagSelection() {
 function updateHiddenInput(tagsInput, selectedTags) {
     if (tagsInput) {
         tagsInput.value = selectedTags.map(tag => tag.id).join(',');
-        console.log("Selected Tags:", selectedTags); // Debug: Log selected tags
-        console.log("Hidden Input Value:", tagsInput.value); // Debug: Log hidden input value
     } else {
         console.error("Element with ID 'tags' not found"); // Debug: Log error if element is not found
     }

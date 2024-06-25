@@ -173,3 +173,10 @@ body {
 .section p, .section div {
     margin-bottom: 10px;
 }
+
+
+.delete-form {
+    display: inline; /* To make the form inline with other elements */
+    margin: 0; /* Remove any default margins */
+    padding: 0; /* Remove any default padding */
+}

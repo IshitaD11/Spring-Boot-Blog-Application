@@ -32,9 +32,20 @@
                 <h2><a th:href="@{'/posts/' + ${post.getSlug()}}"
                        th:text="${post.title}">Title</a>
                 </h2>
-                <h5 th:text="'Written by ' + ${post.user.getFullName()}">Full name</h5>
-                <h5 th:text="'Published on ' + ${post.getCreatedDate()}">Created Date</h5>
+                <div class="post-details">
+                    <img src="/images/profileIcon.png" alt="Profile Picture" class="profile-icon">
+                    <div class="details-text">
+                        <span class="author" th:text="${post.user.getFullName()}">Author Name</span>
+                        <span class="date" th:text="${post.getModifiedDate()}">Date</span>
+                    </div>
+                </div>
                 <p th:utext="${post.getContentFirstLine()}">Content</p>
+                <div class="tags" th:if="${post.tags != null}">
+                    <!--                    <label>Tags:</label>-->
+                    <ul>
+                        <li th:each="tag : ${post.tags}" th:text="${tag.tagName}"></li>
+                    </ul>
+                </div>
                 <br />
             </div>
         </div>

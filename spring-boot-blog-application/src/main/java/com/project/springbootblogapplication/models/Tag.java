@@ -15,10 +15,6 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Tag extends BaseModel{
 
-//    @Id
-//    @GeneratedValue( strategy = GenerationType.IDENTITY)
-//    private long tag_id;
-
     private String tagName;
 
     @ManyToMany(mappedBy = "tags")

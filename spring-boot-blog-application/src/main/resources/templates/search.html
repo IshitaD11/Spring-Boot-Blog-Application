@@ -28,12 +28,13 @@
             <button type="submit">Search</button>
         </form>
         <div id="suggestions"></div>
-        <div id="searchResults" th:if="${searchResponse != null}">
+        <div id="searchResults" th:if="${!searchResponse.getPostDTOS().isEmpty()}">
             <h3>Search Results</h3>
             <div th:each="post : ${searchResponse.postDTOS}" class="post">
                 <a th:href="@{/posts/{slug}(slug=${post.slug})}" th:text="${post.title}"></a>
             </div>
         </div>
+        <div th:if="${NoPostFoundMsg!=null}" th:text="${NoPostFoundMsg}">  </div>
     </div>
 </div>
 

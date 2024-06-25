@@ -11,10 +11,6 @@ import lombok.Setter;
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Comment extends BaseModel{
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private long commentId;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User commentedBy;

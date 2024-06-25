@@ -14,7 +14,6 @@ import com.project.springbootblogapplication.models.Tag;
 import com.project.springbootblogapplication.services.TagService;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class SearchController {
@@ -37,6 +36,10 @@ public class SearchController {
 
         System.out.println("searchResults count" + searchResults.size());
 
+        if(searchTerm!=null && searchResults.isEmpty()){
+            model.addAttribute("NoPostFoundMsg", "No Posts found! Search using some other keyword.");
+        }
+
         // Create a SearchResponseDTO
         SearchResponseDTO searchResponseDTO = new SearchResponseDTO();
         searchResponseDTO.setStatus(ResponseStatus.SUCCESS);
@@ -48,6 +51,8 @@ public class SearchController {
         // Add the searchResponseDTO to the model
         model.addAttribute("searchResponse", searchResponseDTO);
 
+
+        model.addAttribute("showNewPostIcon", true);
         return "search";
     }
 

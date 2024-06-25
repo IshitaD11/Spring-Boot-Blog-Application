@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class RegisterController {
@@ -24,10 +25,15 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String registerNewUser(@ModelAttribute User user){
-        userService.save(user);
+    public String registerNewUser(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes){
+        if(userService.findByEmail(user.getEmail()).isPresent()) {
+            model.addAttribute("error","This email is already registered! Please use a different email id or ");
+            return "register";
+        }
 
-        // after post is done, redirect to home page "/"
-        return "redirect:/";
+        userService.save(user);
+        // after post is done, redirect to login page
+        redirectAttributes.addFlashAttribute("message", "User registered successfully! Please login.");
+        return "redirect:/login";
     }
 }

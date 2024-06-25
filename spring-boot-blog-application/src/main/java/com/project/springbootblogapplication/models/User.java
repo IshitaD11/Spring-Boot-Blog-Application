@@ -2,12 +2,11 @@ package com.project.springbootblogapplication.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity(name = "users")
@@ -17,17 +16,11 @@ import java.util.*;
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class User extends BaseModel{
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long userId;
-
     private String fullName;
     private String email ;
     private String password;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private String companyName;
-//    private LocalDateTime created_at;
-
 
     @OneToMany(mappedBy = "user")
     private List<Post> posts = new ArrayList<>();

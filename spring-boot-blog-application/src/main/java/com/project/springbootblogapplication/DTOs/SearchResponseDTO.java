@@ -1,7 +1,5 @@
 package com.project.springbootblogapplication.DTOs;
 
-
-import com.project.springbootblogapplication.models.Post;
 import lombok.Getter;
 import lombok.Setter;
 

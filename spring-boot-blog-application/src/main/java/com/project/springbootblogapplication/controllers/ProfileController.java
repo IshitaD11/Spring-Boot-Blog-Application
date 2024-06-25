@@ -26,6 +26,7 @@ public class ProfileController {
         Optional<User> optionalUser = userService.findByEmail(currentPrincipalName);
         if(optionalUser.isPresent()) {
             model.addAttribute("user", optionalUser.get());
+            model.addAttribute("showNewPostIcon",true);
             return "profile";
         }
 

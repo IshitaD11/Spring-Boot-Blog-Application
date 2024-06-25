@@ -8,13 +8,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Blog :: Profile</title>
+    <script src="/js/password-validation.js" defer></script>
     <link rel="stylesheet" th:href="@{/css/navbar_styles.css}">
     <link rel="stylesheet" th:href="@{/css/auth_styles.css}">
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container">
+    <h1>My Profile</h1>
     <form action="#" th:action="@{/profile}" th:object="${user}" method="POST" class="auth-form">
+        <input type="hidden" th:field="*{id}"/>
         <div class="form-group">
             <label for="fullname">Full Name</label>
             <input id="fullname" type="text" th:field="*{fullName}" placeholder="Full Name" required>

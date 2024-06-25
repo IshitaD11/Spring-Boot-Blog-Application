@@ -2,10 +2,10 @@ package com.project.springbootblogapplication.controllers;
 
 import com.project.springbootblogapplication.models.Post;
 import com.project.springbootblogapplication.models.Tag;
-import com.project.springbootblogapplication.models.User;
 import com.project.springbootblogapplication.services.PostService;
 import com.project.springbootblogapplication.services.TagService;
 import com.project.springbootblogapplication.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,7 +19,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-// this is for home page. corresponding to services.home.html
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
@@ -34,8 +33,16 @@ public class HomeController {
     private TagService tagService;
 
     @GetMapping("/")
-    public String home(Model model, Authentication authentication, @RequestParam(required = false) Set<Long> tagIds){
+    public String home(Model model,
+                       Authentication authentication,
+                       @RequestParam(required = false) Set<Long> tagIds,
+                       HttpSession session){
+
         List<Post> posts ;
+
+        // Clear the formSubmitted, formEdited attribute
+        session.setAttribute("formSubmitted", false);
+        session.setAttribute("formEdited", false);
 
         if (tagIds!=null && !tagIds.isEmpty()) {
             Set<Tag> selectedTags = tagIds.stream().map(tagService::getTagById)
@@ -44,7 +51,7 @@ public class HomeController {
                     .collect(Collectors.toSet());
             posts = postService.findByTags(selectedTags);
         } else {
-            posts = postService.findAll();
+            posts = postService.getAllPostsSortedByModifiedDate();
         }
 
         List<Tag> tags = tagService.findAll();

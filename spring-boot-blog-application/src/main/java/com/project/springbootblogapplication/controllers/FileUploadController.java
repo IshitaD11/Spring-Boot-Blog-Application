@@ -1,5 +1,8 @@
 package com.project.springbootblogapplication.controllers;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +26,11 @@ public class FileUploadController {
 
     private static final Logger logger = LoggerFactory.getLogger(FileUploadController.class);
 
-    @Value("${upload.dir}")
-    private String uploadDir;
+    @Autowired
+    private AmazonS3 s3Client;
+
+    @Value("${aws.s3.bucket.name}")
+    private String bucketName;
 
     @CrossOrigin
     @PostMapping("/upload")
@@ -34,23 +40,25 @@ public class FileUploadController {
             // Generate a unique file name
             String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
 
-            // Ensure upload directory exists
-            File uploadDirectory = new File(uploadDir);
-            if (!uploadDirectory.exists()) {
-                uploadDirectory.mkdirs();
-            }
+            // Create a temporary file to upload to S3
+            File tempFile = File.createTempFile("temp",fileName);
+            file.transferTo(tempFile);
 
-            // Save the file locally
-            File uploadFile = new File(uploadDir + File.separator + fileName);
-            file.transferTo(uploadFile);
+            // Upload file to S3
+            s3Client.putObject(new PutObjectRequest(bucketName, fileName, tempFile));
+
+            // Delete the temporary file
+            tempFile.delete();
+
+            String fileUrl = s3Client.getUrl(bucketName,fileName).toString();
+
+            response.put("url", fileUrl);
 
             // Log the file path
-            logger.info("File saved to: " + uploadFile.getAbsolutePath());
+            logger.info("File uploaded to S3: " + fileUrl);
 
-            // Return the file URL
-            String fileUrl = "/uploads/" + fileName;
-            response.put("url", fileUrl);
             return ResponseEntity.ok(response);
+
         } catch (IOException e) {
             response.put("error", e.getMessage());
             return ResponseEntity.badRequest().body(response);

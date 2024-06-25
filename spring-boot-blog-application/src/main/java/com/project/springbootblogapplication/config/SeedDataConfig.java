@@ -50,7 +50,7 @@ public class SeedDataConfig implements CommandLineRunner {
             admin = new User();
             admin.setFullName("SYSADMIN");
             admin.setEmail("system.admin@cmp.com");
-            admin.setPassword("adminpw");
+            admin.setPassword("#####");
             Set<Authority> authoritySetAdmin = new HashSet<>();
             authoritySetAdmin.add(adminAuthority);
             authoritySetAdmin.add(userAuthority);
@@ -61,7 +61,7 @@ public class SeedDataConfig implements CommandLineRunner {
             User otherUser = new User();
             otherUser.setFullName("user1");
             otherUser.setEmail("system.user@domain.com");
-            otherUser.setPassword("userpw");
+            otherUser.setPassword("#####");
             Set<Authority> authoritySetUser = new HashSet<>();
             authoritySetUser.add(adminAuthority);
             authoritySetUser.add(userAuthority);

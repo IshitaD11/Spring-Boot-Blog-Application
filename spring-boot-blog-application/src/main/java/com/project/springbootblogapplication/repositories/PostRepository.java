@@ -15,11 +15,12 @@ import java.util.Set;
 public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findBySlug(String slug);
 
-    @Query("SELECT DISTINCT p FROM posts p JOIN p.tags t WHERE t IN :tags")
-    List<Post> findDistinctByTagsIn(List<Tag> tags);
 
-    @Query("SELECT p FROM posts p JOIN p.tags t WHERE t IN :tags GROUP BY p HAVING COUNT(t) = :tagCount")
+    @Query("SELECT p FROM posts p JOIN p.tags t WHERE t IN :tags GROUP BY p HAVING COUNT(t) = :tagCount order by p.modifiedDate desc")
     List<Post> findByTagsContainingAll(@Param("tags") Set<Tag> tags, @Param("tagCount") long tagCount);
 
     List<Post> findByTitleContainingIgnoreCase(String title);
+
+    @Query("select p from posts p order by p.modifiedDate desc")
+    List<Post> findAllOrderByModifiedDateDesc();
 }

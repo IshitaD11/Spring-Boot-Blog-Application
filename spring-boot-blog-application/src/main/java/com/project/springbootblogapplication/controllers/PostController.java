@@ -6,6 +6,7 @@ import com.project.springbootblogapplication.models.User;
 import com.project.springbootblogapplication.services.PostService;
 import com.project.springbootblogapplication.services.TagService;
 import com.project.springbootblogapplication.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import com.project.springbootblogapplication.utils.SlugUtil;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class PostController {
@@ -40,7 +41,8 @@ public class PostController {
             model.addAttribute("post",post);
             List<Tag> predefinedTags = tagService.findAll();
             model.addAttribute("tags",predefinedTags);
-            return "post"; //html template for individual post
+            model.addAttribute("showNewPostIcon",true);
+            return "post";
         }
         return "404"; //return error page
     }
@@ -49,7 +51,13 @@ public class PostController {
     // added authentication
     @GetMapping("/posts/new")
     @PreAuthorize("isAuthenticated()")
-    public String createNewPost(Model model){
+    public String createNewPost(Model model, HttpSession session){
+
+        // Check if form is already Submitted, prevents resubmission
+        Boolean formSubmitted = (Boolean) session.getAttribute("formSubmitted");
+        if (formSubmitted != null && formSubmitted) {
+            return "redirect:/";
+        }
 
         Post post = new Post();
         List<Tag> predefinedTags = tagService.findAll();
@@ -62,9 +70,17 @@ public class PostController {
     // create new post, POST data back to DB
     @PostMapping("/posts/new")
     @PreAuthorize("isAuthenticated()")
-    public String saveNewPost(@ModelAttribute Post post, Authentication authentication, @RequestParam("tags") List<Long> tagIds) throws Exception {
+    public String saveNewPost(@ModelAttribute Post post,
+                              Authentication authentication,
+                              @RequestParam("tags") List<Long> tagIds,
+                              RedirectAttributes redirectAttributes,
+                              HttpSession session) throws Exception {
 
-        System.out.println("Incoming tag IDs: " + tagIds); // Debug: Log incoming tag IDs
+        // Check if form is already Submitted, prevents resubmission
+        Boolean formSubmitted = (Boolean) session.getAttribute("formSubmitted");
+        if (formSubmitted != null && formSubmitted) {
+            return "redirect:/";
+        }
 
         // Get the currently logged-in user
         User currentUser = null;
@@ -83,13 +99,27 @@ public class PostController {
         postService.save(post);
 
         // redirect to newly created post page
-        return "redirect:/posts/" + post.getSlug();
+        redirectAttributes.addAttribute("slug", post.getSlug());
+
+        // Set the formSubmitted attribute in the session
+        session.setAttribute("formSubmitted", true);
+
+        return "redirect:/posts/{slug}";
     }
 
     //edit post: get the post
     //New: changes done to give access to edit/delete to own user/admin
     @GetMapping("/posts/{slug}/edit")
-    public String getPostForEdit(@PathVariable String slug, Model model, Authentication authentication){
+    public String getPostForEdit(@PathVariable String slug,
+                                 Model model,
+                                 Authentication authentication,
+                                 HttpSession session){
+
+        // Check if form is already Submitted, prevents resubmission
+        Boolean formEdited = (Boolean) session.getAttribute("formEdited");
+        if (formEdited != null && formEdited) {
+            return "redirect:/";
+        }
 
         // find post by id
         Optional<Post> optionalPost = postService.findBySlug(slug);
@@ -99,11 +129,13 @@ public class PostController {
             User currentUser = userService.findByEmail(authentication.getName()).orElse(null);
             Post post = optionalPost.get();
 
-            //  if current user is own user/admin then allow
+            //  if current user its own user/admin then allow
             if(currentUser != null && (currentUser.equals(post.getUser()) || currentUser.isAdmin())){
                 List<Tag> predefinedTags = tagService.findAll();
                 model.addAttribute("post",post);
                 model.addAttribute("tags", predefinedTags);
+                // Set attribute to indicate form is being edited
+                session.setAttribute("formEdited", true);
                 return "post_edit";
             }
             else{
@@ -119,13 +151,7 @@ public class PostController {
     @PostMapping("/posts/{slug}")
     @PreAuthorize("isAuthenticated()")
     public String updatePost(@PathVariable String slug, Post post,
-                             @RequestParam("tags") List<Long> tagIds
-//            ,
-//                             @RequestParam("processedContent") String processedContent
-    ){
-
-        System.out.println("Incoming tag IDs: " + tagIds); // Debug: Log incoming tag IDs
-//        System.out.println("Processed content: " + processedContent); // Debug: Log processed content
+                             @RequestParam("tags") List<Long> tagIds){
 
         // find post by id
         Optional<Post> optionalPost = postService.findBySlug(slug);
@@ -150,16 +176,25 @@ public class PostController {
 
 
     // delete post: Only admin has rights to delete post
+    // change to own post's user has access to delete
     @GetMapping("/posts/{slug}/delete")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    public String deletePost(@PathVariable String slug){
+//    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    public String deletePost(@PathVariable String slug, Authentication authentication){
         // find post by id
         Optional<Post> optionalPost = postService.findBySlug(slug);
-        if(optionalPost.isPresent()){
+
+        // if post exists and user is authenticated
+        if(optionalPost.isPresent() && authentication!=null && authentication.isAuthenticated()) {
+            User currentUser = userService.findByEmail(authentication.getName()).orElse(null);
             Post post = optionalPost.get();
 
-            postService.delete(post);
-            return "redirect:/";
+            //  if current user is own user/admin then allow
+            if (currentUser != null && (currentUser.equals(post.getUser()) || currentUser.isAdmin())) {
+                postService.delete(post);
+                return "redirect:/";
+            } else {
+                return "access_denied";
+            }
         }
         else{
             return "404";

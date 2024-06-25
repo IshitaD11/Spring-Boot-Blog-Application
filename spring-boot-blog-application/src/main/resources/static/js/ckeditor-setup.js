@@ -110,6 +110,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 const code = codeBlock.value;
                 codeBlock.value = `<pre><code class="language-${codeBlockLanguage}">${htmlEncode(code)}</code></pre>`;
             }
+
         });
     }
+
+    // Add pageshow event listener to force reload if loaded from cache
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
+
 });
