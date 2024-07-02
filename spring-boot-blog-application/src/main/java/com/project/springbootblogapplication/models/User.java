@@ -22,8 +22,8 @@ public class User extends BaseModel{
     private LocalDate dateOfBirth;
     private String companyName;
 
-    @OneToMany(mappedBy = "user")
-    private List<Post> posts = new ArrayList<>();
+//    @OneToMany(mappedBy = "user")
+//    private List<Post> posts = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority",

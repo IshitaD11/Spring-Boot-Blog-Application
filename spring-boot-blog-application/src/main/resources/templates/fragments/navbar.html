@@ -21,6 +21,7 @@
                     </div>
                 </div>
                 <ul class="navbar-links">
+                    <li sec:authorize="!isAuthenticated()"><a th:href="@{/contact-us}" class="simple-link">Contact Us</a></li>
                     <li sec:authorize="!isAuthenticated()"><a th:href="@{/register}" class="simple-link">Register</a></li>
                     <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}" class="simple-link">Login</a></li>
                     <li sec:authorize="isAuthenticated()">

@@ -36,7 +36,7 @@ public class ContactUsController {
                                      Model model){
 
         String msgBody = "Form: " + userEmail + "\n\n" + message;
-        ResponseStatus response = emailService.sendEmail(userEmail,toEmail,subject,msgBody);
+        ResponseStatus response = emailService.sendEmail(toEmail,toEmail,subject,msgBody);
 
         if (response != null && response.equals(ResponseStatus.SUCCESS))
             model.addAttribute("successMessage", "Your message has been sent successfully!");

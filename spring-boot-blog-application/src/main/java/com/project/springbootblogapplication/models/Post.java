@@ -41,8 +41,8 @@ public class Post extends BaseModel{
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "post" , cascade = CascadeType.ALL )
-    private List<Comment> comments = new ArrayList<>();
+//    @OneToMany(mappedBy = "post" , cascade = CascadeType.ALL )
+//    private List<Comment> comments = new ArrayList<>();
 
     public String getContentFirstLine(){
         if (content == null || content.isEmpty()) {

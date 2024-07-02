@@ -91,12 +91,13 @@ public class SeedDataConfig implements CommandLineRunner {
                 comment.setCommentedBy(otherUser);
                 comment.setCommentText("Comment added by user1");
 
-                postService.save(dummyPost);
+                Post savedPost = postService.save(dummyPost);
 
+                comment.setPost(savedPost);
                 commentService.save(comment);
-                List<Comment> comments = new ArrayList<>();
-                comments.add(comment);
-                dummyPost.setComments(comments);
+//                List<Comment> comments = new ArrayList<>();
+//                comments.add(comment);
+//                dummyPost.setComments(comments);
 
                 postService.save(dummyPost);
 

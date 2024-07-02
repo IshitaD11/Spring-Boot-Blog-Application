@@ -19,7 +19,8 @@
         <div th:if="${errorMessage}" class="error" th:text="${errorMessage}"> </div>
         <div class="form-group">
             <label for="userEmail">Your Email</label>
-            <input id="userEmail" type="email" name="userEmail" th:value="${userEmail}" readonly>
+            <input th:if="${userEmail}" id="userEmail" type="email" name="userEmail" th:value="${userEmail}" readonly>
+            <input th:unless="${userEmail}" id="userEmail" type="email" name="userEmail">
         </div>
         <div class="form-group">
             <label for="subject">Subject</label>

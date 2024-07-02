@@ -22,7 +22,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
         String email = request.getParameter("email");
         boolean userExists = userService.findByEmail(email).isPresent();
 
-        String errorMessage = "Incorrect password";
+        String errorMessage = "Incorrect username/password";
 
         if (exception.getMessage().equalsIgnoreCase("User is disabled")) {
             errorMessage = "Your account is disabled";

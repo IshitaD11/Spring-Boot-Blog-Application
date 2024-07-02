@@ -31,7 +31,8 @@ public class WebSecurityConfig {
             "/js/**",
             "/search/**",
             "/forgot-password",
-            "/reset-password/**"
+            "/reset-password/**",
+            "/contact-us"
     };
 
 
