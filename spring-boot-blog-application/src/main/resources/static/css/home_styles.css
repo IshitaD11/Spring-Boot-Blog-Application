@@ -150,3 +150,48 @@ body {
     padding: 5px 10px;
     margin: 5px;
 }
+
+@media (max-width: 768px) {
+    .new-post-button {
+        padding: 10px 20px; /* Adjusted padding for mobile */
+    }
+
+    .main-content {
+        flex-direction: column; /* Stack sections vertically on mobile */
+    }
+
+    .left-section, .right-section {
+        width: 100%;
+        padding: 10px; /* Reduced padding for smaller screens */
+        max-width: 100%; /* Full width on mobile */
+    }
+
+    .separator {
+        display: none; /* Hide separator on mobile */
+    }
+
+    .post-container {
+        width: 100%; /* Full width on mobile */
+        margin: 20px auto; /* Reduced margin for smaller screens */
+    }
+
+    .post-container h1 {
+        width: 100%; /* Full width on mobile */
+        margin: auto auto 10px; /* Adjusted margin */
+        letter-spacing: -1px; /* Adjusted letter-spacing */
+    }
+
+    .post {
+        padding: 10px 15px; /* Adjusted padding for smaller screens */
+    }
+
+    .post h2 {
+        font-size: 28px; /* Adjusted font size for mobile */
+        margin-bottom: 10px; /* Adjusted margin */
+    }
+
+    .profile-icon {
+        width: 30px; /* Adjusted size for mobile */
+        height: 30px; /* Adjusted size for mobile */
+    }
+}
