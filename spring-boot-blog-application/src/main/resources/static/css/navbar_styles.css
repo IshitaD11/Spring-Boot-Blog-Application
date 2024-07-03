@@ -105,3 +105,46 @@
 .show {
     display: block;
 }
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column; /* Stack navbar items vertically on mobile */
+        align-items: flex-start; /* Align items to the start */
+    }
+
+    .navbar-container {
+        flex-direction: column; /* Stack container items vertically */
+        align-items: flex-start; /* Align items to the start */
+        margin: 0; /* Remove margin */
+    }
+
+    .navbar-left, .navbar-right {
+        width: 100%;
+        justify-content: space-between; /* Space between items */
+    }
+
+    .navbar-left .navbar-brand {
+        margin-left: 0; /* Remove margin for mobile */
+        font-size: 24px; /* Adjust font size for mobile */
+    }
+
+    .navbar-right {
+        flex-direction: column; /* Stack right section items vertically */
+        align-items: flex-start; /* Align items to the start */
+        font-size: 16px; /* Adjust font size for mobile */
+        gap: 10px; /* Adjust gap for mobile */
+    }
+
+    .navbar-icons {
+        gap: 10px; /* Adjust gap between icons */
+    }
+
+    .navbar-links {
+        flex-direction: column; /* Stack links vertically */
+        gap: 5px; /* Adjust gap for mobile */
+    }
+
+    .simple-link {
+        margin-right: 0; /* Remove right margin for mobile */
+    }
+}
