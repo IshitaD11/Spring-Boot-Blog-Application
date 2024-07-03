@@ -22,3 +22,12 @@
     background-color: #4CAF50;
     color: white;
 }
+
+@media (max-width: 768px) {
+
+    .tags-container{
+        text-align: center;
+        align-items: center;
+    }
+
+}

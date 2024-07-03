@@ -154,25 +154,35 @@ body {
 @media (max-width: 768px) {
     .main-content {
         flex-direction: column; /* Stack sections vertically on mobile */
+        align-content: center;
     }
 
     .left-section, .right-section {
         width: 100%;
         padding: 10px; /* Reduced padding for smaller screens */
         max-width: 100%; /* Full width on mobile */
+        text-align: center;
     }
 
     .post-container {
         width: 100%; /* Full width on mobile */
-        margin: 20px auto; /* Reduced margin for smaller screens */
+        margin: 20px 0; /* Reduced margin for smaller screens */
+        padding-right: 10px;
     }
 
     .post h2 {
         font-size: 28px; /* Adjusted font size for mobile */
+        /*text-align: center;*/
     }
 
     .profile-icon {
         width: 30px; /* Adjusted size for mobile */
         height: 30px; /* Adjusted size for mobile */
     }
+
+    .new-post-button-container{
+        justify-content: center;
+        padding: 0;
+    }
+
 }

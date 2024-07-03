@@ -47,6 +47,13 @@
     height: 35px;
 }
 
+.menu-icon-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
 .navbar-links {
     list-style: none;
     display: flex;
@@ -59,12 +66,16 @@
 .simple-link {
     text-decoration: none;
     color: black;
-    margin-right: 10px;
+    /*margin-right: 10px;*/
+    padding: 0.5rem 1rem;
+    margin: 0;
+    border-radius: 5px;
     /*font-size: 20px;*/
 }
 
 .simple-link:hover {
     color: #007bff;
+    background-color: #f1f1f1;
 }
 
 .profile-wrapper {
@@ -89,6 +100,7 @@
     z-index: 1;
     right: 0; /* Align to the right edge of the navbar */
     top: 100%; /* Position below the profile icon */
+    text-align: center;
 }
 
 .profile-menu a {
@@ -106,45 +118,104 @@
     display: block;
 }
 
+/* Mobile menu styles */
+.menu-icon {
+    display: none;
+    cursor: pointer;
+}
+
+/* Media queries for mobile */
 @media (max-width: 768px) {
     .navbar {
-        flex-direction: column; /* Stack navbar items vertically on mobile */
-        align-items: flex-start; /* Align items to the start */
+        flex-direction: row;
+        justify-content: space-between;
     }
 
     .navbar-container {
-        flex-direction: column; /* Stack container items vertically */
-        align-items: flex-start; /* Align items to the start */
-        margin: 0; /* Remove margin */
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0;
     }
 
-    .navbar-left, .navbar-right {
-        width: 100%;
-        justify-content: space-between; /* Space between items */
-    }
-
-    .navbar-left .navbar-brand {
-        margin-left: 0; /* Remove margin for mobile */
-        font-size: 24px; /* Adjust font size for mobile */
+    .navbar-left {
+        flex: 1;
     }
 
     .navbar-right {
-        flex-direction: column; /* Stack right section items vertically */
-        align-items: flex-start; /* Align items to the start */
-        font-size: 16px; /* Adjust font size for mobile */
-        gap: 10px; /* Adjust gap for mobile */
+        flex: 1;
+        justify-content: flex-end;
+    }
+
+    .navbar-left .navbar-brand {
+        font-size: 24px;
+    }
+
+    .navbar-right {
+        flex-direction: row;
+        align-items: center;
+        font-size: 16px;
+        gap: 10px;
     }
 
     .navbar-icons {
-        gap: 10px; /* Adjust gap between icons */
+        gap: 10px;
     }
 
-    .navbar-links {
-        flex-direction: column; /* Stack links vertically */
-        gap: 5px; /* Adjust gap for mobile */
+    .menu-icon-wrapper,
+    .profile-section {
+        flex-direction: column;
+        align-items: flex-end;
     }
 
-    .simple-link {
-        margin-right: 0; /* Remove right margin for mobile */
+    .navbar-links,
+    .profile-menu {
+        display: none;
+        flex-direction: column;
+        gap: 0px;
+        position: absolute;
+        background-color: #f9f9f9;
+        top: 100%;
+        right: 0;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        padding: 0.5rem;
+    }
+
+    .navbar-links li,
+    .profile-menu a {
+        width: 100%;
+    }
+
+    .simple-link,
+    .profile-items {
+        margin-right: 0;
+        padding: 0.5rem 1rem;
+        width: 100%;
+        text-align: center;
+        display: block;
+        white-space: nowrap;
+    }
+
+    .simple-link:hover,
+    .profile-items:hover{
+        background-color: #f1f1f1;
+    }
+
+    .menu-icon,
+    .profile-icon{
+        display: block;
+    }
+
+    .navbar-links.show,
+    .profile-menu.show {
+        display: flex;
+    }
+
+    .navbar-icons img,
+    .profile-icon,
+    .menu-icon img {
+        width: 25px;
+        height: 25px;
     }
 }

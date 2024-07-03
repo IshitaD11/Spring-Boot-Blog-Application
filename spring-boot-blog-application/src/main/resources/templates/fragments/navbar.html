@@ -20,28 +20,38 @@
                         </a>
                     </div>
                 </div>
-                <ul class="navbar-links">
-                    <li sec:authorize="!isAuthenticated()"><a th:href="@{/contact-us}" class="simple-link">Contact Us</a></li>
-                    <li sec:authorize="!isAuthenticated()"><a th:href="@{/register}" class="simple-link">Register</a></li>
-                    <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}" class="simple-link">Login</a></li>
-                    <li sec:authorize="isAuthenticated()">
-                        <div class="profile-wrapper">
-                            <img th:src="@{/images/profileIcon.png}" alt="Profile Icon" class="profile-icon" onclick="toggleProfileMenu()">
-                            <div class="profile-menu" id="profileMenu">
-                                <a th:href="@{/profile}">Profile</a>
-                                <a th:href="@{/contact-us}">Contact Us</a>
-                                <a href="#" onclick="document.getElementById('logoutForm').submit();">Logout</a>
-                                <form id = "logoutForm" action="#" th:action="@{/logout}" method="POST" style="display: none;">
-                                </form>
-                            </div>
+                <div class="menu-icon-wrapper" sec:authorize="!isAuthenticated()">
+                    <div class="menu-icon" onclick="toggleMenu()">
+                        <img src="/images/menuIcon.png" alt="Menu Icon">
+                    </div>
+                    <ul class="navbar-links" id="navbarLinks">
+                        <li><a th:href="@{/contact-us}" class="simple-link">Contact Us</a></li>
+                        <li><a th:href="@{/register}" class="simple-link">Register</a></li>
+                        <li><a th:href="@{/login}" class="simple-link">Login</a></li>
+                    </ul>
+                </div>
+                <div class="profile-section" sec:authorize="isAuthenticated()">
+                    <div class="profile-wrapper">
+                        <img th:src="@{/images/profileIcon.png}" alt="Profile Icon" class="profile-icon" onclick="toggleProfileMenu()">
+                        <div class="profile-menu" id="profileMenu">
+                            <a th:href="@{/profile}" class="profile-items">Profile</a>
+                            <a th:href="@{/contact-us}" class="profile-items">Contact Us</a>
+                            <a href="#" class="profile-items" onclick="document.getElementById('logoutForm').submit();">Logout</a>
+                            <form id = "logoutForm" action="#" th:action="@{/logout}" method="POST" style="display: none;">
+                            </form>
                         </div>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
     <script>
+        function toggleMenu() {
+            var menu = document.getElementById("navbarLinks");
+            menu.classList.toggle("show");
+        }
+
         function toggleProfileMenu() {
             var menu = document.getElementById("profileMenu");
             menu.classList.toggle("show");
@@ -58,6 +68,14 @@
                     }
                 }
             }
+
+            if (!event.target.matches('.menu-icon img')) {
+                var navbarLinks = document.getElementById("navbarLinks");
+                if (navbarLinks.classList.contains('show')) {
+                    navbarLinks.classList.remove('show');
+                }
+            }
+
         }
     </script>
 </div>
