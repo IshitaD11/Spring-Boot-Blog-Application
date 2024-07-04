@@ -182,6 +182,15 @@ body {
     padding: 0; /* Remove any default padding */
 }
 
+.code-block-wrapper {
+    overflow-x: auto; /* Ensure code blocks are scrollable horizontally */
+    background: #f5f5f5; /* Optional: Add background color to code blocks */
+    padding: 10px; /* Optional: Add padding to code blocks */
+    border-radius: 5px; /* Optional: Add rounded corners to code blocks */
+    margin-bottom: 20px; /* Optional: Add margin below code blocks */
+}
+
+
 /* Media queries for mobile */
 @media (max-width: 768px) {
     .main-content {
@@ -214,7 +223,7 @@ body {
     }
 
     .details-text{
-        font-size: 15px;
+        font-size: 12px;
     }
 
     .profile-icon {
@@ -253,5 +262,14 @@ body {
     .section img {
         max-width: 100%; /* Ensure images do not overflow the container */
         height: auto;
+    }
+
+    .code-block-wrapper {
+        overflow-x: auto; /* Ensure code blocks are scrollable horizontally */
+        max-width: 100%; /* Ensure code blocks do not overflow the container */
+    }
+
+    .tags li{
+        font-size: 9px;
     }
 }

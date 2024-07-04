@@ -50,7 +50,9 @@
                 </div>
                 <div class="section" th:if="${post.codeBlock != null}">
                     <label>Code</label>
-                    <div th:utext="${post.codeBlock}"></div>
+                    <div class="code-block-wrapper">
+                        <div th:utext="${post.codeBlock}"></div>
+                    </div>
                 </div>
             </div>
             <ul class="edit-delete-buttons" sec:authorize="isAuthenticated()">
