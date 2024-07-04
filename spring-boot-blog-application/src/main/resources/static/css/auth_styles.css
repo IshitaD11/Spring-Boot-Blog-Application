@@ -125,13 +125,13 @@ input {
 
 @media (max-width: 768px) {
     .container {
-        padding: 1rem;
-        margin-top: 50px;
+        padding-top: 100px;
+        margin-top: 100px;
     }
 
     h1 {
         width: 100%;
-        font-size: 1.5rem;
+        font-size: 20px;
     }
 
     .auth-form {
@@ -142,6 +142,10 @@ input {
 
     .form-group {
         padding-right: 0;
+    }
+
+    .form-group label{
+        font-size: 15px;
     }
 
     .auth-button {
