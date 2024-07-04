@@ -267,6 +267,7 @@ body {
     .code-block-wrapper {
         overflow-x: auto; /* Ensure code blocks are scrollable horizontally */
         max-width: 100%; /* Ensure code blocks do not overflow the container */
+        font-size: 10px;
     }
 
     .tags li{
