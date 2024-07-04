@@ -1,3 +1,4 @@
+/* home_styles.css */
 * {
     box-sizing: border-box;
 }
@@ -171,8 +172,12 @@ body {
     }
 
     .post h2 {
-        font-size: 28px; /* Adjusted font size for mobile */
+        font-size: 20px; /* Adjusted font size for mobile */
         /*text-align: center;*/
+    }
+
+    .post p {
+        font-size: 12px;
     }
 
     .profile-icon {
@@ -185,4 +190,21 @@ body {
         padding: 0;
     }
 
+    .post {
+        margin-left: 0.5rem; /* Reduce left margin */
+        margin-right: 0.5rem; /* Add right margin */
+        margin-bottom: 1rem; /* Add space at the bottom of each post */
+    }
+
+    .new-post-button{
+        font-size: 13px;
+    }
+
+    .tags li{
+        font-size: 12px;
+    }
+
+    .details-text{
+        font-size: 10px;
+    }
 }

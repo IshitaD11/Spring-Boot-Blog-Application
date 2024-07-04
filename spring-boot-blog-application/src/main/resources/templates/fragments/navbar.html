@@ -20,23 +20,23 @@
                         </a>
                     </div>
                 </div>
-                <div class="menu-icon-wrapper" sec:authorize="!isAuthenticated()">
-                    <div class="menu-icon" onclick="toggleMenu()">
+                <div class="navbar-menu-icon-wrapper" sec:authorize="!isAuthenticated()">
+                    <div class="navbar-menu-icon" onclick="toggleMenu()">
                         <img src="/images/menuIcon.png" alt="Menu Icon">
                     </div>
                     <ul class="navbar-links" id="navbarLinks">
-                        <li><a th:href="@{/contact-us}" class="simple-link">Contact Us</a></li>
-                        <li><a th:href="@{/register}" class="simple-link">Register</a></li>
-                        <li><a th:href="@{/login}" class="simple-link">Login</a></li>
+                        <li><a th:href="@{/contact-us}" class="navbar-simple-link">Contact Us</a></li>
+                        <li><a th:href="@{/register}" class="navbar-simple-link">Register</a></li>
+                        <li><a th:href="@{/login}" class="navbar-simple-link">Login</a></li>
                     </ul>
                 </div>
-                <div class="profile-section" sec:authorize="isAuthenticated()">
-                    <div class="profile-wrapper">
-                        <img th:src="@{/images/profileIcon.png}" alt="Profile Icon" class="profile-icon" onclick="toggleProfileMenu()">
-                        <div class="profile-menu" id="profileMenu">
-                            <a th:href="@{/profile}" class="profile-items">Profile</a>
-                            <a th:href="@{/contact-us}" class="profile-items">Contact Us</a>
-                            <a href="#" class="profile-items" onclick="document.getElementById('logoutForm').submit();">Logout</a>
+                <div class="navbar-profile-section" sec:authorize="isAuthenticated()">
+                    <div class="navbar-profile-wrapper">
+                        <img th:src="@{/images/profileIcon.png}" alt="Profile Icon" class="navbar-profile-icon" onclick="toggleProfileMenu()">
+                        <div class="navbar-profile-menu" id="profileMenu">
+                            <a th:href="@{/profile}" class="navbar-profile-items">Profile</a>
+                            <a th:href="@{/contact-us}" class="navbar-profile-items">Contact Us</a>
+                            <a href="#" class="navabr-profile-items" onclick="document.getElementById('logoutForm').submit();">Logout</a>
                             <form id = "logoutForm" action="#" th:action="@{/logout}" method="POST" style="display: none;">
                             </form>
                         </div>
@@ -59,8 +59,8 @@
 
         // Close the menu if the user clicks outside of it
         window.onclick = function(event) {
-            if (!event.target.matches('.profile-icon')) {
-                var menus = document.getElementsByClassName("profile-menu");
+            if (!event.target.matches('.navbar-profile-icon')) {
+                var menus = document.getElementsByClassName("navbar-profile-menu");
                 for (var i = 0; i < menus.length; i++) {
                     var openMenu = menus[i];
                     if (openMenu.classList.contains('show')) {
@@ -69,7 +69,7 @@
                 }
             }
 
-            if (!event.target.matches('.menu-icon img')) {
+            if (!event.target.matches('.navbar-menu-icon img')) {
                 var navbarLinks = document.getElementById("navbarLinks");
                 if (navbarLinks.classList.contains('show')) {
                     navbarLinks.classList.remove('show');

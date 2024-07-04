@@ -47,7 +47,7 @@
     height: 35px;
 }
 
-.menu-icon-wrapper {
+.navbar-menu-icon-wrapper {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -63,7 +63,7 @@
     gap: 10px;
 }
 
-.simple-link {
+.navbar-simple-link {
     text-decoration: none;
     color: black;
     /*margin-right: 10px;*/
@@ -73,25 +73,25 @@
     /*font-size: 20px;*/
 }
 
-.simple-link:hover {
+.navbar-simple-link:hover {
     color: #007bff;
     background-color: #f1f1f1;
 }
 
-.profile-wrapper {
+.navbar-profile-wrapper {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.profile-icon {
+.navbar-profile-icon {
     width: 35px;
     height: 35px;
     cursor: pointer;
 }
 
 /* CSS for the profile menu */
-.profile-menu {
+.navbar-profile-menu {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
@@ -103,14 +103,14 @@
     text-align: center;
 }
 
-.profile-menu a {
+.navbar-profile-menu a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
 }
 
-.profile-menu a:hover {
+.navbar-profile-menu a:hover {
     background-color: #f1f1f1;
 }
 
@@ -119,7 +119,7 @@
 }
 
 /* Mobile menu styles */
-.menu-icon {
+.navbar-menu-icon {
     display: none;
     cursor: pointer;
 }
@@ -162,14 +162,14 @@
         gap: 10px;
     }
 
-    .menu-icon-wrapper,
-    .profile-section {
+    .navbar-menu-icon-wrapper,
+    .navbar-profile-section {
         flex-direction: column;
         align-items: flex-end;
     }
 
     .navbar-links,
-    .profile-menu {
+    .navbar-profile-menu {
         display: none;
         flex-direction: column;
         gap: 0px;
@@ -183,12 +183,12 @@
     }
 
     .navbar-links li,
-    .profile-menu a {
+    .navbar-profile-menu a {
         width: 100%;
     }
 
-    .simple-link,
-    .profile-items {
+    .navbar-simple-link,
+    .navbar-profile-items {
         margin-right: 0;
         padding: 0.5rem 1rem;
         width: 100%;
@@ -197,24 +197,24 @@
         white-space: nowrap;
     }
 
-    .simple-link:hover,
-    .profile-items:hover{
+    .navbar-simple-link:hover,
+    .navbar-profile-items:hover{
         background-color: #f1f1f1;
     }
 
-    .menu-icon,
-    .profile-icon{
+    .navbar-menu-icon,
+    .navbar-profile-icon{
         display: block;
     }
 
     .navbar-links.show,
-    .profile-menu.show {
+    .navbar-profile-menu.show {
         display: flex;
     }
 
     .navbar-icons img,
-    .profile-icon,
-    .menu-icon img {
+    .navbar-profile-icon,
+    .navbar-menu-icon img {
         width: 25px;
         height: 25px;
     }

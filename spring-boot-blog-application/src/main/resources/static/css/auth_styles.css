@@ -1,5 +1,9 @@
 /* auth_styles.css */
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -117,4 +121,41 @@ input {
     border: 1px solid #ccc;
     border-radius: 5px;
     min-height: 150px; /* Adjust as needed */
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+        margin-top: 50px;
+    }
+
+    h1 {
+        width: 100%;
+        font-size: 1.5rem;
+    }
+
+    .auth-form {
+        padding: 1rem;
+        width: 100%;
+        max-width: none;
+    }
+
+    .form-group {
+        padding-right: 0;
+    }
+
+    .auth-button {
+        padding: 8px 16px;
+        font-size: 1rem;
+    }
+
+    .forgot-password-link {
+        font-size: 0.8rem;
+    }
+
+    .error, .success {
+        font-size: 0.9rem;
+        padding: 8px;
+        margin: 8px 0;
+    }
 }

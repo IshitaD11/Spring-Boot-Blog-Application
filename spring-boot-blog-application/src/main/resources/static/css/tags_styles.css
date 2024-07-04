@@ -30,4 +30,7 @@
         align-items: center;
     }
 
+    .tag {
+        font-size: 12px;
+    }
 }
