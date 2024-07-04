@@ -32,7 +32,8 @@
 
     .tag {
         font-size: 9px;
-        padding: 3px 3px;
+        padding: 2px 2px;
+        margin: 2px;
     }
 
     .tags-container h3{
