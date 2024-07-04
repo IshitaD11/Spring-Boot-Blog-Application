@@ -171,8 +171,12 @@ body {
         padding-right: 10px;
     }
 
+    .post-container h1{
+        font-size: 20px;
+    }
+
     .post h2 {
-        font-size: 20px; /* Adjusted font size for mobile */
+        font-size: 18px; /* Adjusted font size for mobile */
         /*text-align: center;*/
     }
 
@@ -201,7 +205,7 @@ body {
     }
 
     .tags li{
-        font-size: 12px;
+        font-size: 9px;
     }
 
     .details-text{

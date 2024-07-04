@@ -1,5 +1,9 @@
 /* search_styles.css */
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -77,4 +81,33 @@ button[type="submit"]:hover {
 .post a{
     font-size: 30px;
     text-decoration: none;
+}
+
+@media (max-width: 600px) {
+    body {
+        font-size: 14px; /* Reduce font size for mobile screens */
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    #postTitleInput {
+        width: 100%; /* Full width for mobile screens */
+    }
+
+    button[type="submit"] {
+        width: 100%; /* Full width for mobile screens */
+        padding: 10px;
+    }
+
+    #suggestions {
+        width: 100%;
+        left: 0;
+        right: 0;
+    }
+
+    .post a {
+        font-size: 16px; /* Reduce font size for mobile screens */
+    }
 }

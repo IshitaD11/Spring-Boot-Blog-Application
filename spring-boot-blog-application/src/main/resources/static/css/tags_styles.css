@@ -31,6 +31,10 @@
     }
 
     .tag {
-        font-size: 12px;
+        font-size: 9px;
+    }
+
+    .tags-container h3{
+        font-size: 18px;
     }
 }

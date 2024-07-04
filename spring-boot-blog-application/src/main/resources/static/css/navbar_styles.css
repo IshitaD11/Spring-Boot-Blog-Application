@@ -148,13 +148,13 @@
     }
 
     .navbar-left .navbar-brand {
-        font-size: 24px;
+        font-size: 20px;
     }
 
     .navbar-right {
         flex-direction: row;
         align-items: center;
-        font-size: 16px;
+        font-size: 13px;
         gap: 10px;
     }
 
