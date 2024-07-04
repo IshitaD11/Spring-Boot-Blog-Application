@@ -210,7 +210,11 @@ body {
     }
 
     .post h2 {
-        font-size: 28px; /* Adjusted font size for mobile */
+        font-size: 22px; /* Adjusted font size for mobile */
+    }
+
+    .details-text{
+        font-size: 15px;
     }
 
     .profile-icon {
@@ -235,5 +239,19 @@ body {
     .button {
         width: 100%; /* Full width button on mobile */
         padding: 12px; /* Adjust padding for mobile */
+    }
+
+    .section label{
+        font-size: 16px;
+    }
+
+    .section p, .section div {
+        word-wrap: break-word; /* Ensure text wraps within the container */
+        font-size: 13px;
+    }
+
+    .section img {
+        max-width: 100%; /* Ensure images do not overflow the container */
+        height: auto;
     }
 }
