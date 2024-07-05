@@ -24,7 +24,7 @@ Each post includes:
 - Code Block: A formatted code snippet demonstrating the solution
 
 ## Prerequisites
-Make sure you have Java (JDK), Maven, and any database (MySQL or PostgreSQL) installed on your system.
+Make sure you have Java (JDK), Maven, Docker, and any database (MySQL or PostgreSQL) installed on your system.
 Additionally, set up an AWS S3 bucket and a Gmail account for SMTP.
 
 
