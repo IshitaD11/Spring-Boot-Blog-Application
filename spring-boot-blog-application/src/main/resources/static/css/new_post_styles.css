@@ -90,6 +90,10 @@ pre code {
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 }
 
+h6 {
+    margin-bottom: 0;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 10px;

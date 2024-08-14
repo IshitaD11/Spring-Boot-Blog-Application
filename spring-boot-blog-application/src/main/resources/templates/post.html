@@ -34,15 +34,20 @@
                         <span class="date" th:text="${post.getModifiedDate()}">Date</span>
                     </div>
                 </div>
-                <h3 th:if="${post.url != null and not #strings.isEmpty(post.url)}"><a th:href="${post.getUrl()}" class="button">Solve this problem</a></h3>
+                <h3 th:if="${post.url != null and not #strings.isEmpty(post.url)}">
+                    <a th:href="${post.getUrl()}" class="button" target="_blank">Solve this problem</a></h3>
                 <div class="tags" th:if="${post.tags != null}">
                     <ul>
                         <li th:each="tag : ${post.tags}" th:text="${tag.tagName}"></li>
                     </ul>
                 </div>
-                <div class="section" th:if="${post.problemStatement != null and not #strings.isEmpty(post.problemStatement)}">
-                    <label>Problem Statement</label>
-                    <p th:utext="${post.problemStatement}">Problem Statement</p>
+<!--                <div class="section" th:if="${post.problemStatement != null and not #strings.isEmpty(post.problemStatement)}">-->
+<!--                    <label>Problem Statement</label>-->
+<!--                    <p th:utext="${post.problemStatement}">Problem Statement</p>-->
+<!--                </div>-->
+                <div class="section" th:if="${description != null and not #strings.isEmpty(description)}">
+                    <label>Description</label>
+                    <p th:utext="${description}">Description</p>
                 </div>
                 <div class="section" th:if="${post.content != null and not #strings.isEmpty(post.content)}">
                     <label>Solution Approach</label>

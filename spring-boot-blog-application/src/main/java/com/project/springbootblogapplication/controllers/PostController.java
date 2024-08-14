@@ -4,6 +4,7 @@ import com.project.springbootblogapplication.models.Post;
 import com.project.springbootblogapplication.models.Tag;
 import com.project.springbootblogapplication.models.User;
 import com.project.springbootblogapplication.services.PostService;
+import com.project.springbootblogapplication.services.ScrapperService;
 import com.project.springbootblogapplication.services.TagService;
 import com.project.springbootblogapplication.services.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -30,9 +31,12 @@ public class PostController {
     @Autowired
     private TagService tagService;
 
+    @Autowired
+    private ScrapperService scraperService;
+
     // this is for each post
     @GetMapping("/posts/{slug}")
-    public String getPost(@PathVariable String slug, Model model){
+    public String getPost(@PathVariable String slug, Model model) {
         // find post by id
         Optional<Post> optionalPost = postService.findBySlug(slug);
         // if post exists, then pass it in model
@@ -41,6 +45,8 @@ public class PostController {
             model.addAttribute("post",post);
             List<Tag> predefinedTags = tagService.findAll();
             model.addAttribute("tags",predefinedTags);
+            String description = scraperService.fetchProblemDescription(post.getUrl());
+            model.addAttribute("description", description);
             model.addAttribute("showNewPostIcon",true);
             return "post";
         }
@@ -162,7 +168,7 @@ public class PostController {
             existingPost.setTitle(post.getTitle());
             existingPost.setContent(post.getContent());
             existingPost.setCodeBlock(post.getCodeBlock());
-            existingPost.setProblemStatement(post.getProblemStatement());
+//            existingPost.setProblemStatement(post.getProblemStatement());
             existingPost.setUrl(post.getUrl());
             List<Tag> tags = tagService.findAllById(tagIds);
 

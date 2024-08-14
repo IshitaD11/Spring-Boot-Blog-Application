@@ -23,8 +23,8 @@ public class Post extends BaseModel{
     @Column(unique = true)
     private String slug;
 
-    @Column(columnDefinition = "TEXT")
-    private String problemStatement;
+//    @Column(columnDefinition = "TEXT")
+//    private String problemStatement;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable( name = "post_tag", joinColumns = @JoinColumn(name = "post_id"),

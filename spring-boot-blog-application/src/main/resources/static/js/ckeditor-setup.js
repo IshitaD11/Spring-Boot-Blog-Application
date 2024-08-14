@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (form) {
         initializeCKEditor('content');
-        initializeCKEditor('problemStatement');
+        // initializeCKEditor('problemStatement');
 
         if (editPostForm) {
             const codeBlockField = document.querySelector('#codeBlock');
