@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.json.JSONObject;
 
-import java.util.Arrays;
-
 @Service
 public class ScrapperService {
 
@@ -14,6 +12,11 @@ public class ScrapperService {
 
 
     public String fetchProblemDescription(String url) {
+        if(url == null || url.isEmpty())
+            return null;
+        if(!url.startsWith("https://leetcode.com/"))
+            return null;
+
         String[] urlParts = url.split("/");
 
         String titleSlug = urlParts[urlParts.length-1].contains("-") ? urlParts[urlParts.length - 1] : urlParts[urlParts.length - 2];
@@ -47,7 +50,8 @@ public class ScrapperService {
 
             return question.getString("content");
         } else {
-            return "Failed to fetch data: " + response.getStatusCode();
+            System.out.println("Failed to fetch data: " + response.getStatusCode());
+            return "";
         }
     }
 }
